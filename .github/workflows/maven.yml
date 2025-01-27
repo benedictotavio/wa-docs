@@ -1,29 +1,13 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: First Workflow
+name: Maven Workflow
 on:
-  pull_request: 
+  pull_request:
     branches: [ main ]
     types: [opened, synchronize, reopened, labeled, unlabeled]
   push:
     branches: [ main ]
-jobs:
-  first-job:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print greeting
-        run: echo "Hello World!"
-      - name: Print goodbye
-        run: echo "Done - bye!"
 
+jobs:
   java-build:
-    needs: first-job # Wait for the first job to complete
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -37,7 +21,7 @@ jobs:
         run: mvn clean install -B -DskipTests
 
   java-tests:
-    needs: [java-build, first-job] # Wait for that 2 jobs to complete
+    needs: [java-build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -51,7 +35,7 @@ jobs:
         run: mvn test
   
   java-coverage:
-    needs: [java-tests, first-job] # Wait for that 2 jobs to complete
+    needs: [java-tests]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

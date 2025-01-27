@@ -14,7 +14,7 @@ A estrutura de pastas é uma forma de organizar o código-fonte de uma aplicaç�
 ### Módulos:
    - **user**: Contém os componentes relacionados ao usuário.
      - **auth**: Contém os componentes relacionados à autenticação e autorização do usuário.
-     - user entity
+     - user domain
      - user controller
      - user service
      - user repository
@@ -27,7 +27,7 @@ A estrutura de pastas é uma forma de organizar o código-fonte de uma aplicaç�
    - **request**: Contém os componentes relacionados às requisições.
    - **documentation**: Contém os componentes relacionados à documentação.
    - **mockserver**: Contém os componentes relacionados ao mock server.
-  - **utils**: Contém os componentes relacionados às ferramentas.
+  - **utils**: Contém os componentes relacionados às ferramentas. deve ser um modulo separado.
   - **config**: Contém os componentes relacionados à configuração.
 
 

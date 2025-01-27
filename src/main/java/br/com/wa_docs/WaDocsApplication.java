@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class WaDocsApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(WaDocsApplication.class, args);
 	}
-
 }
