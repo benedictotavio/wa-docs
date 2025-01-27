@@ -2,11 +2,13 @@
 Ferramenta para deploy de aplicações em containers, com foco em orquestração de containers.
 
 ### Arquiterura do cluster
+![Arquitetura do cluster](/images/KUBERNETES_ARQUITETURA.drawio.png)
 
 ### Serviço de Cloud
 - AWS
 
 #### AWS EKS
+- Elastic Kubernetes Service
 
 ### Pipelines CI/CD
 - Github Actions

@@ -20,7 +20,7 @@ jobs:
       - name: Print greeting
         run: echo "Hello World!"
       - name: Print goodbye
-        run: "Done - bye!"
+        run: echo "Done - bye!"
 
   java-build:
     needs: first-job # Wait for the first job to complete

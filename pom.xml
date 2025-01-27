@@ -9,27 +9,13 @@
 		<version>3.4.2</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>br.com</groupId>
 	<artifactId>wa_docs</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>wa_docs</name>
+	<name>WA Docs</name>
 	<description>Plataforma de API para armazenamento e testes via HTTP</description>
-	<url />
-	<licenses>
-		<license />
-	</licenses>
-	<developers>
-		<developer />
-	</developers>
-	<scm>
-		<connection />
-		<developerConnection />
-		<tag />
-		<url />
-	</scm>
-
-	<packaging>pom</packaging>
-
+	<packaging>jar</packaging>
 
 	<properties>
 		<java.version>23</java.version>
