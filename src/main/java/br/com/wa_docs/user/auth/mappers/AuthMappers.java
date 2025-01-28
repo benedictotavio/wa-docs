@@ -3,27 +3,17 @@ package br.com.wa_docs.user.auth.mappers;
 import br.com.wa_docs.user.auth.dtos.signup.SignUpRequest;
 import br.com.wa_docs.user.domains.User;
 import br.com.wa_docs.user.domains.UserRole;
+import br.com.wa_docs.user.enums.RoleName;
 
 public class AuthMappers {
-    private AuthMappers() { }
-
-
-    public static SignUpRequest toSignUpRequest(User user) {
-        return new SignUpRequest(
-            user.getUsername(),
-            user.getEmail(),
-            user.getPassword(),
-            user.getPassword(),
-            user.getRole().name()
-        );
+    private AuthMappers() {
     }
 
     public static User toUser(SignUpRequest signUpRequest) {
         return new User(
-            signUpRequest.name(),
-            signUpRequest.email(),
-            signUpRequest.password(),
-            UserRole.valueOf(signUpRequest.role())
-        );
+                signUpRequest.name(),
+                signUpRequest.email(),
+                signUpRequest.password(),
+                new UserRole(RoleName.valueOf(signUpRequest.role())));
     }
 }

@@ -3,7 +3,6 @@
 GET {{url}}/1 HTTP/1.1
 
 
-
 ### AUTH
 @url = http://localhost:8080/api/v1/auth
 

@@ -2,6 +2,9 @@ package br.com.wa_docs.user.auth.services;
 
 import java.util.Optional;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +15,7 @@ import br.com.wa_docs.user.domains.User;
 import br.com.wa_docs.user.repositories.UserRepository;
 
 @Service
-public class AuthService implements IAuthService {
+public class AuthService implements IAuthService, UserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -37,9 +40,15 @@ public class AuthService implements IAuthService {
 
         User newUser = AuthMappers.toUser(signUpRequest);
         newUser.setPassword(
-            new BCryptPasswordEncoder().encode(signUpRequest.password())
-        );
+                new BCryptPasswordEncoder().encode(signUpRequest.password()));
 
         userRepository.save(newUser);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        return userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
     }
 }

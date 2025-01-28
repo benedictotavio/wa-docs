@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import br.com.wa_docs.user.domains.User;
 import br.com.wa_docs.user.domains.UserRole;
+import br.com.wa_docs.user.enums.RoleName;
 
 @SpringBootTest
 class UserTest {
@@ -21,14 +22,10 @@ class UserTest {
     @BeforeEach
     void setUp() {
         user = new User(
-                1L,
                 "username",
                 "email",
                 "password",
-                UserRole.USER,
-                createdDate,
-                updatedDate
-        );
+                new UserRole(RoleName.USER));
     }
 
     @Test
@@ -37,20 +34,7 @@ class UserTest {
         assertEquals("username", user.getUsername());
         assertEquals("email", user.getEmail());
         assertEquals("password", user.getPassword());
-        assertEquals(UserRole.USER, user.getRole());
         assertEquals(createdDate, user.getCreatedAt());
         assertEquals(updatedDate, user.getUpdatedAt());
-    }
-
-    @Test
-    void testUserWithNullValues() {
-        user = new User();
-        assertEquals(null, user.getId());
-        assertEquals(null, user.getUsername());
-        assertEquals(null, user.getEmail());
-        assertEquals(null, user.getPassword());
-        assertEquals(null, user.getRole());
-        assertEquals(null, user.getCreatedAt());
-        assertEquals(null, user.getUpdatedAt());
     }
 }
