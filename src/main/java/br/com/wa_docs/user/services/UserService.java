@@ -8,7 +8,7 @@ import br.com.wa_docs.user.repositories.UserRepository;
 @Service
 public class UserService implements  IUserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -18,5 +18,6 @@ public class UserService implements  IUserService {
     public User getUserById(Long id) {
         return userRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-    }   
+    }
+
 }
