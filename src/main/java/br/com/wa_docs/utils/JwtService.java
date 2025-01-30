@@ -5,6 +5,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -13,6 +14,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import br.com.wa_docs.user.domains.User;
 
+@Service
 public class JwtService {
 
     @Value("${argon2.secretKey}")
@@ -39,29 +41,30 @@ public class JwtService {
 
     public String getSubjectFromToken(String token) {
         try {
-            // Define o algoritmo HMAC SHA256 para verificar a assinatura do token passando a chave secreta definida
+            // Define o algoritmo HMAC SHA256 para verificar a assinatura do token passando
+            // a chave secreta definida
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
             return JWT.require(algorithm)
                     .withIssuer(issuer) // Define o emissor do token
                     .build()
                     .verify(token) // Verifica a validade do token
                     .getSubject(); // Obtém o assunto (neste caso, o nome de usuário) do token
-        } catch (JWTVerificationException exception){
+        } catch (JWTVerificationException exception) {
             throw new JWTVerificationException("Token inválido ou expirado.");
         }
     }
 
     public String validateToken(String token) {
-    try {
-      Algorithm algorithm = Algorithm.HMAC256(secretKey);
-      return JWT.require(algorithm)
-          .build()
-          .verify(token)
-          .getSubject();
-    } catch (JWTVerificationException exception) {
-      throw new JWTVerificationException("Error while validating token \n" + exception.getMessage());
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secretKey);
+            return JWT.require(algorithm)
+                    .build()
+                    .verify(token)
+                    .getSubject();
+        } catch (JWTVerificationException exception) {
+            throw new JWTVerificationException("Error while validating token \n" + exception.getMessage());
+        }
     }
-  }
 
     private Instant creationDate() {
         return ZonedDateTime.now(ZoneId.of("America/Recife")).toInstant();

@@ -15,7 +15,7 @@ import br.com.wa_docs.user.domains.User;
 import br.com.wa_docs.user.repositories.UserRepository;
 
 @Service
-public class AuthService implements IAuthService, UserDetailsService {
+public class AuthService implements IAuthService {
 
     private final UserRepository userRepository;
 
@@ -39,6 +39,7 @@ public class AuthService implements IAuthService, UserDetailsService {
         }
 
         User newUser = AuthMappers.toUser(signUpRequest);
+        
         newUser.setPassword(
                 new BCryptPasswordEncoder().encode(signUpRequest.password()));
 
@@ -47,7 +48,6 @@ public class AuthService implements IAuthService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
         return userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
     }

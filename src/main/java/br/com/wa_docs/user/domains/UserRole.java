@@ -1,28 +1,17 @@
 package br.com.wa_docs.user.domains;
 
-import br.com.wa_docs.user.enums.RoleName;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+public enum UserRole {
 
-@Entity
-@Table(name = "user_roles")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-public class UserRole {
+  ADMIN("admin"),
+  USER("user");
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private String role;
 
-  @Enumerated(EnumType.STRING)
-  private RoleName role;
+  UserRole(String role) {
+    this.role = role;
+  }
 
+  public String getRole() {
+    return role;
+  }
 }
