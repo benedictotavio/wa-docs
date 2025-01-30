@@ -6,20 +6,26 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import br.com.wa_docs.user.auth.dtos.signup.SignUpRequest;
+import br.com.wa_docs.user.auth.domains.Role;
+import br.com.wa_docs.user.auth.dtos.signup.SignUpRequestDto;
 import br.com.wa_docs.user.auth.mappers.AuthMappers;
 import br.com.wa_docs.user.domains.User;
-import br.com.wa_docs.user.domains.UserRole;
 
 @SpringBootTest()
 class AuthMappersTest {
 
-    private SignUpRequest signUpRequest;
+    private SignUpRequestDto signUpRequest;
     private User user;
+
+    private Role[] roles = {
+            new Role("ROLE_USER"),
+            new Role("ROLE_ADMIN")
+    };
 
     @BeforeEach
     void setUp() {
-        signUpRequest = new SignUpRequest("John Doe", "john@doe.com", "123456", "123456", UserRole.USER);
+        signUpRequest = new SignUpRequestDto(
+                "John Doe", "john@doe.com", "123456", "123456", roles);
     }
 
     @Test
@@ -28,6 +34,7 @@ class AuthMappersTest {
         assertEquals(user.getUsername(), signUpRequest.username());
         assertEquals(user.getEmail(), signUpRequest.email());
         assertEquals(user.getPassword(), signUpRequest.password());
+        assert user.getAuthorities().size() == 2;
     }
 
 }

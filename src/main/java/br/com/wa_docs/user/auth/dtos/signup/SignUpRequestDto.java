@@ -1,13 +1,13 @@
 package br.com.wa_docs.user.auth.dtos.signup;
 
-import br.com.wa_docs.user.domains.UserRole;
+import br.com.wa_docs.user.auth.domains.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public record SignUpRequest(
+public record SignUpRequestDto(
                 @NotBlank(message = "Name cannot be blank") @NotNull(message = "Name cannot be null") @NotEmpty(message = "Name cannot be empty") String username,
 
                 @Email(message = "Invalid email format") @NotBlank(message = "Email cannot be blank") @NotNull(message = "Email cannot be null") @NotEmpty(message = "Email cannot be empty") String email,
@@ -16,5 +16,5 @@ public record SignUpRequest(
 
                 @NotBlank(message = "Confirm password cannot be blank") @NotNull(message = "Confirm password cannot be null") @NotEmpty(message = "Confirm password cannot be empty") String confirmPassword,
 
-                @NotBlank(message = "Role cannot be blank") @NotNull(message = "Role cannot be null") @Size(min = 1, message = "At least one role must be selected") @Size(max = 3, message = "Maximum of 3 roles can be selected") UserRole role) {
+                @NotBlank(message = "Role cannot be blank") @NotNull(message = "Role cannot be null") @Size(min = 1, message = "At least one role must be selected") @Size(max = 3, message = "Maximum of 3 roles can be selected") Role[] roles) {
 }

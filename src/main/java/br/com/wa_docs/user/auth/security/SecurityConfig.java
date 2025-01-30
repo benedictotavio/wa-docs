@@ -2,7 +2,6 @@ package br.com.wa_docs.user.auth.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -30,8 +29,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable())
                 .authorizeHttpRequests(
-                        auth -> auth.requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll().anyRequest()
-                                .authenticated())
+                        auth -> auth.anyRequest().permitAll())
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
 

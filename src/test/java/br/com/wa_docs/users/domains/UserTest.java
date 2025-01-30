@@ -9,13 +9,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import br.com.wa_docs.user.auth.domains.Role;
 import br.com.wa_docs.user.domains.User;
-import br.com.wa_docs.user.domains.UserRole;
 
 @SpringBootTest
 class UserTest {
 
     private User user;
+
+    private Role[] roles = {
+            new Role("ROLE_USER"),
+            new Role("ROLE_ADMIN")
+    };
 
     @BeforeEach
     void setUp() {
@@ -23,7 +28,7 @@ class UserTest {
                 "username",
                 "email",
                 "password",
-                UserRole.USER);
+                roles);
     }
 
     @Test

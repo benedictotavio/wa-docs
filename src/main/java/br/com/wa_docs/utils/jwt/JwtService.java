@@ -1,10 +1,9 @@
-package br.com.wa_docs.utils;
+package br.com.wa_docs.utils.jwt;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
@@ -17,21 +16,17 @@ import br.com.wa_docs.user.domains.User;
 @Service
 public class JwtService {
 
-    @Value("${argon2.secretKey}")
-    private static String secretKey;
-
-    @Value("${argon2.issuer}")
-    private static String issuer;
+    private JwtProperties jwtProperties;
 
     public String generateToken(User user) {
         try {
             // Define o algoritmo HMAC SHA256 para criar a assinatura do token passando a
             // chave secreta definida
-            Algorithm algorithm = Algorithm.HMAC256(secretKey);
+            Algorithm algorithm = Algorithm.HMAC256(jwtProperties.getSecretKey());
             return JWT.create()
-                    .withIssuer(issuer) // Define o emissor do token
-                    .withIssuedAt(creationDate()) // Define a data de emissão do token
-                    .withExpiresAt(expirationDate()) // Define a data de expiração do token
+                    .withIssuer(jwtProperties.getIssuer()) // Define o emissor do token
+                    .withIssuedAt(this.creationDate()) // Define a data de emissão do token
+                    .withExpiresAt(this.expirationDate()) // Define a data de expiração do token
                     .withSubject(user.getUsername()) // Define o assunto do token (neste caso, o nome de usuário)
                     .sign(algorithm); // Assina o token usando o algoritmo especificado
         } catch (JWTCreationException exception) {
@@ -43,9 +38,9 @@ public class JwtService {
         try {
             // Define o algoritmo HMAC SHA256 para verificar a assinatura do token passando
             // a chave secreta definida
-            Algorithm algorithm = Algorithm.HMAC256(secretKey);
+            Algorithm algorithm = Algorithm.HMAC256(jwtProperties.getSecretKey());
             return JWT.require(algorithm)
-                    .withIssuer(issuer) // Define o emissor do token
+                    .withIssuer(jwtProperties.getIssuer()) // Define o emissor do token
                     .build()
                     .verify(token) // Verifica a validade do token
                     .getSubject(); // Obtém o assunto (neste caso, o nome de usuário) do token
@@ -56,7 +51,7 @@ public class JwtService {
 
     public String validateToken(String token) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secretKey);
+            Algorithm algorithm = Algorithm.HMAC256(jwtProperties.getSecretKey());
             return JWT.require(algorithm)
                     .build()
                     .verify(token)
