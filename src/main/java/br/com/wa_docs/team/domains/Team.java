@@ -5,14 +5,19 @@ import java.util.Set;
 
 import br.com.wa_docs.project.domain.Project;
 import br.com.wa_docs.user.domains.User;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,7 +36,8 @@ public class Team {
 
     private LocalDate createdAt;
 
-    @OneToOne(mappedBy = "team")
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;
 
     @OneToMany(mappedBy = "team")

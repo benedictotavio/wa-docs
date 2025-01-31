@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import br.com.wa_docs.team.domains.Team;
 import br.com.wa_docs.user.auth.domains.ProjectRole;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -17,6 +18,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -43,6 +45,10 @@ public class User implements UserDetails {
 
     @Column
     private String password;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @JoinColumn(name = "team_id", nullable = true, referencedColumnName = "team_id")
+    private transient Team team;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<ProjectRole> projectRoles;

@@ -12,9 +12,9 @@ import br.com.wa_docs.user.auth.exceptions.PasswordsNotEqualsException;
 import br.com.wa_docs.user.auth.exceptions.UnathorizedException;
 import br.com.wa_docs.user.auth.exceptions.UserAlreadyRegisteredException;
 import br.com.wa_docs.user.auth.mappers.AuthMappers;
+import br.com.wa_docs.user.auth.security.JwtService;
 import br.com.wa_docs.user.domains.User;
 import br.com.wa_docs.user.repositories.UserRepository;
-import br.com.wa_docs.utils.jwt.JwtService;
 
 @Service
 public class AuthService implements IAuthService {

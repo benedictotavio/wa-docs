@@ -1,4 +1,4 @@
-package br.com.wa_docs.utils.jwt;
+package br.com.wa_docs.user.auth.security;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

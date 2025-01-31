@@ -13,7 +13,6 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import br.com.wa_docs.user.exceptions.UserNotFoundException;
 import br.com.wa_docs.user.repositories.UserRepository;
-import br.com.wa_docs.utils.jwt.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
