@@ -39,10 +39,12 @@ A estrutura de pastas é uma forma de organizar o código-fonte de uma aplicaç�
 1. Usuário (User)
 2. Equipe (Team)
 3. Projetos (Project)
-4. Pastas (Folder)
-5. Requisições (Request)
-6. Documentação (Documentation)
-7. Mockserver (MockServer)
+5. Permissões (Roles)
+6. Permissões de projeto (ProjectRoles)
+6. Pastas (Folder)
+7. Requisições (Request)
+8. Documentação (Documentation)
+9. Mockserver (MockServer)
 
 
 ### Usuário (User)

@@ -4,13 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.time.LocalDate;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import br.com.wa_docs.user.auth.domains.Role;
-import br.com.wa_docs.user.auth.enums.ERole;
 import br.com.wa_docs.user.domains.User;
 
 @SpringBootTest
@@ -18,18 +14,12 @@ class UserTest {
 
     private User user;
 
-    private Role[] roles = {
-            new Role(ERole.USER),
-            new Role(ERole.ADMIN)
-    };
-
     @BeforeEach
     void setUp() {
         user = new User(
                 "username",
                 "email",
-                "password",
-                roles);
+                "password");
     }
 
     @Test

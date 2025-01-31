@@ -59,8 +59,13 @@ public class AuthService implements IAuthService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+        Optional<User> user = this.userRepository.findByEmail(username);
+
+        if (user.isEmpty()) {
+            throw new UsernameNotFoundException("Usuário não encontrado");
+        }
+
+        return user.get();
     }
 
     @Override

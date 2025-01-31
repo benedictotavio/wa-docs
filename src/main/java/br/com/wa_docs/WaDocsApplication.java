@@ -28,16 +28,13 @@ public class WaDocsApplication {
 				return;
 			if (roleRepository.findByAuthority(ERole.ADMIN).isPresent())
 				return;
-			Role adminRole = roleRepository.save(new Role(ERole.ADMIN));
+			roleRepository.save(new Role(ERole.ADMIN));
 			roleRepository.save(new Role(ERole.USER));
-
-			Set<Role> roles = Set.of(adminRole);
 
 			User admin = new User(
 					"admin",
 					"admin@email.com",
-					passwordEncoder.encode("password"),
-					roles);
+					passwordEncoder.encode("password"));
 
 			userRepository.save(admin);
 
