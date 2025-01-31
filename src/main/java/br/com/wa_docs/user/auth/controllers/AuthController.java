@@ -37,6 +37,7 @@ public class AuthController {
                     URI.create("/api/v1/auth/signup")).body(
                             this.authService.signUp(requestDto));
         } catch (Exception e) {
+            System.out.printf("Erro ao realizar signup: %s", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }

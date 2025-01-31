@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import br.com.wa_docs.user.auth.domains.Role;
 import br.com.wa_docs.user.auth.dtos.signup.SignUpRequestDto;
+import br.com.wa_docs.user.auth.enums.ERole;
 import br.com.wa_docs.user.auth.mappers.AuthMappers;
 import br.com.wa_docs.user.domains.User;
 
@@ -18,8 +19,8 @@ class AuthMappersTest {
     private User user;
 
     private Role[] roles = {
-            new Role("ROLE_USER"),
-            new Role("ROLE_ADMIN")
+            new Role(ERole.USER),
+            new Role(ERole.ADMIN)
     };
 
     @BeforeEach

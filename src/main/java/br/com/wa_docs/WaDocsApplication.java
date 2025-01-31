@@ -1,6 +1,5 @@
 package br.com.wa_docs;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.boot.CommandLineRunner;
@@ -10,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import br.com.wa_docs.user.auth.domains.Role;
+import br.com.wa_docs.user.auth.enums.ERole;
 import br.com.wa_docs.user.auth.repositories.RoleRepository;
 import br.com.wa_docs.user.domains.User;
 import br.com.wa_docs.user.repositories.UserRepository;
@@ -20,27 +20,27 @@ public class WaDocsApplication {
 		SpringApplication.run(WaDocsApplication.class, args);
 	}
 
-	// @Bean
-	// CommandLineRunner run(UserRepository userRepository, RoleRepository roleRepository,
-	// 		PasswordEncoder passwordEncoder) {
-	// 	return args -> {
-	// 		if (userRepository.findByEmail("admin@email.com").isPresent())
-	// 			return;
-	// 		if (roleRepository.findByAuthority("ADMIN").isPresent())
-	// 			return;
-	// 		Role adminRole = roleRepository.save(new Role("ADMIN"));
-	// 		roleRepository.save(new Role("USER"));
+	@Bean
+	CommandLineRunner run(UserRepository userRepository, RoleRepository roleRepository,
+			PasswordEncoder passwordEncoder) {
+		return args -> {
+			if (userRepository.findByEmail("admin@email.com").isPresent())
+				return;
+			if (roleRepository.findByAuthority(ERole.ADMIN).isPresent())
+				return;
+			Role adminRole = roleRepository.save(new Role(ERole.ADMIN));
+			roleRepository.save(new Role(ERole.USER));
 
-	// 		Role[] roles = { adminRole };
+			Set<Role> roles = Set.of(adminRole);
 
-	// 		User admin = new User(
-	// 				"admin",
-	// 				"admin@email.com",
-	// 				passwordEncoder.encode("password"),
-	// 				roles);
+			User admin = new User(
+					"admin",
+					"admin@email.com",
+					passwordEncoder.encode("password"),
+					roles);
 
-	// 		userRepository.save(admin);
+			userRepository.save(admin);
 
-	// 	};
-	// }
+		};
+	}
 }

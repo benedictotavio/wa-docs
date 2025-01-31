@@ -1,6 +1,7 @@
 package br.com.wa_docs.user.auth.dtos.signup;
 
-import br.com.wa_docs.user.auth.domains.Role;
+import java.util.Set;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -16,5 +17,5 @@ public record SignUpRequestDto(
 
                 @NotBlank(message = "Confirm password cannot be blank") @NotNull(message = "Confirm password cannot be null") @NotEmpty(message = "Confirm password cannot be empty") String confirmPassword,
 
-                @NotBlank(message = "Role cannot be blank") @NotNull(message = "Role cannot be null") @Size(min = 1, message = "At least one role must be selected") @Size(max = 3, message = "Maximum of 3 roles can be selected") Role[] roles) {
+                @NotBlank(message = "Role cannot be blank") @NotNull(message = "Role cannot be null") @Size(min = 1, message = "At least one role must be selected") @Size(max = 3, message = "Maximum of 3 roles can be selected") Set<String> roles) {
 }
