@@ -33,7 +33,7 @@ public class Role implements GrantedAuthority {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_role_id")
-    private transient ProjectRole projectRole;
+    private ProjectRole projectRole;
 
     public Role(ERole authority) {
         this.authority = authority;

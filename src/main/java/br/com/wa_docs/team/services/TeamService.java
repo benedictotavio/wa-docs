@@ -5,16 +5,20 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import br.com.wa_docs.team.domains.Team;
+import br.com.wa_docs.team.dtos.CreateTeamDto;
 import br.com.wa_docs.team.exceptions.TeamNotFoundException;
 import br.com.wa_docs.team.repositories.TeamRepository;
+import br.com.wa_docs.user.services.IUserService;
 
 @Service
 public class TeamService implements ITeamService {
 
     private final TeamRepository teamRepository;
+    private final IUserService userService;
 
-    TeamService(TeamRepository teamRepository) {
+    TeamService(TeamRepository teamRepository, IUserService userService) {
         this.teamRepository = teamRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -31,7 +35,11 @@ public class TeamService implements ITeamService {
     }
 
     @Override
-    public Team createTeam(Team team) {
+    public Team createTeam(CreateTeamDto createTeamDto) {
+         Team team = new Team( 
+            createTeamDto.name(),
+            this.userService.getUserById(createTeamDto.ownerId())
+         );
         return this.teamRepository.save(team);
     }
 
