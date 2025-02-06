@@ -49,6 +49,10 @@ public class Team {
         this.createdAt = LocalDate.now();
     }
 
+    public Team(String name) {
+        this.name = name;
+    }
+
     public void setName(String name) {
 
         if (name == null || name.isEmpty()) {
@@ -57,7 +61,6 @@ public class Team {
 
         this.name = name;
     }
-
 
     public void setOwner(User owner) {
 

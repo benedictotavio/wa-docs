@@ -47,7 +47,6 @@ public class TeamService implements ITeamService {
     public Team updateTeam(Long id, Team team) {
         Team existingTeam = this.getTeamById(id);
         existingTeam.setName(team.getName());
-        existingTeam.setOwner(team.getOwner());
         return this.teamRepository.save(existingTeam);
     }
 

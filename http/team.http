@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
     "name": "test_team",
-    "ownerId": "252"
+    "ownerId": "453"
 }
 
 # @name GetTeam
@@ -16,13 +16,13 @@ GET {{url}}/1 HTTP/1.1
 
 
 # @name UpdateTeam
-PUT {{url}}/{{CreateTeam.response.body.$.id}} HTTP/1.1
+###
+PATCH {{url}}/1 HTTP/1.1
 Content-Type: application/json
 
 {
-    "name": "test_team_updated",
-    "ownerId": "253"
+    "name": "test_team_updated"
 }
 
 # @name DeleteTeam
-DELETE {{url}}/{{CreateTeam.response.body.$.id}} HTTP/1.1
+DELETE {{url}}/1 HTTP/1.1

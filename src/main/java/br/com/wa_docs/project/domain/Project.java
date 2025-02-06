@@ -18,7 +18,7 @@ import lombok.Getter;
 @Entity
 @Table(name = "projects")
 public class Project {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,10 +30,17 @@ public class Project {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name="team_id", nullable=false)
+    @JoinColumn(name = "team_id", nullable = false)
     private Team team;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="owner_id", nullable=false)
+    @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
+
+    public Project(String name, String description, Team team, User owner) {
+        this.name = name;
+        this.description = description;
+        this.team = team;
+        this.owner = owner;
+    }
 }
