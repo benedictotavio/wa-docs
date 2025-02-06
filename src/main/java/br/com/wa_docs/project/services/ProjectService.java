@@ -29,4 +29,9 @@ public class ProjectService implements IProjectService {
         return projectRepository.save(project);
     }
 
+    @Override
+    public Project getProjectById(Long id) {
+        return projectRepository.findById(id).orElseThrow(() -> new RuntimeException("Project not found"));
+    }
+
 }

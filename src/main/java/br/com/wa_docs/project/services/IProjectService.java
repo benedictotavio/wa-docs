@@ -5,4 +5,5 @@ import br.com.wa_docs.project.dtos.CreateProjectDto;
 
 public interface IProjectService {
     Project createProject(CreateProjectDto createProject);
+    Project getProjectById(Long id);
 }
