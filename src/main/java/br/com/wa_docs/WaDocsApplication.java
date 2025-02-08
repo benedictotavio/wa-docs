@@ -27,6 +27,10 @@ public class WaDocsApplication {
 
 			for (String arg : args) {
 
+				if (arg.isEmpty()) {
+					arg = "ADMIN";
+				}
+
 				if (userRepository.findByEmail("admin@email.com").isPresent())
 					return;
 				if (roleRepository.findByAuthority(ERole.ADMIN).isPresent())
@@ -37,7 +41,7 @@ public class WaDocsApplication {
 				User admin = new User(
 						"admin",
 						"admin@email.com",
-						passwordEncoder.encode("password"),
+						passwordEncoder.encode(arg),
 						arg);
 
 				userRepository.save(admin);
