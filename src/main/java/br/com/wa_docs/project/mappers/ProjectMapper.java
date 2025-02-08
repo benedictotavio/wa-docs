@@ -4,6 +4,7 @@ import br.com.wa_docs.project.domain.Project;
 import br.com.wa_docs.project.dtos.CreateProjectDto;
 import br.com.wa_docs.project.dtos.ResponseProjectDto;
 import br.com.wa_docs.team.domains.Team;
+import br.com.wa_docs.team.dtos.ResponseTeamDto;
 import br.com.wa_docs.user.domains.User;
 
 public class ProjectMapper {
@@ -12,7 +13,6 @@ public class ProjectMapper {
     }
 
     public static Project toProject(CreateProjectDto createProject, Team team, User owner) {
-
         return new Project(
                 createProject.name(),
                 createProject.description(),
@@ -25,7 +25,9 @@ public class ProjectMapper {
                 project.getId(),
                 project.getName(),
                 project.getDescription(),
-                project.getTeam(),
-                project.getOwner());
+                new ResponseTeamDto(
+                        project.getTeam().getTeamId(),
+                        project.getTeam().getName(),
+                        project.getTeam().getCreatedAt()));
     }
 }

@@ -34,4 +34,9 @@ public class ProjectService implements IProjectService {
         return projectRepository.findById(id).orElseThrow(() -> new RuntimeException("Project not found"));
     }
 
+    @Override
+    public void deleteProject(Long id) {
+        projectRepository.deleteById(id);
+    }
+
 }

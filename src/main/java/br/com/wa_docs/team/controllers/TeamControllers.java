@@ -3,6 +3,7 @@ package br.com.wa_docs.team.controllers;
 import java.net.URI;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wa_docs.team.domains.Team;
 import br.com.wa_docs.team.dtos.CreateTeamDto;
+import br.com.wa_docs.team.dtos.ResponseTeamDto;
 import br.com.wa_docs.team.dtos.UpdateTeamDto;
 import br.com.wa_docs.team.mappers.TeamMappers;
 import br.com.wa_docs.team.services.ITeamService;
@@ -28,13 +30,9 @@ public class TeamControllers {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getTeamById(@PathVariable Long id) {
-        try {
-            Team team = this.teamService.getTeamById(id);
-            return ResponseEntity.ok(TeamMappers.toResponseTeamDto(team));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ResponseTeamDto> getTeamById(@PathVariable Long id) {
+        Team team = this.teamService.getTeamById(id);
+        return ResponseEntity.ok(TeamMappers.toResponseTeamDto(team));
     }
 
     @PostMapping
@@ -55,6 +53,16 @@ public class TeamControllers {
                     new Team(
                             team.name()));
             return ResponseEntity.ok(updatedTeam.getName());
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTeam(@PathVariable Long id) {
+        try {
+            this.teamService.deleteTeam(id);
+            return ResponseEntity.ok("Team deleted successfully");
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }

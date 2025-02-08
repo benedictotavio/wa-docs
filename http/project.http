@@ -8,10 +8,14 @@ Content-Type: application/json
   "name": "Project Name",
   "description": "Project Description",
   "teamId": 1,
-  "ownerId": 453
+  "ownerId": 1
 }
 
 
 ###
 # @name GetProject
-GET {{url}}/1 HTTP/1.1
+GET {{url}}/7 HTTP/1.1
+
+###
+# @name DeleteProject
+DELETE {{url}}/1 HTTP/1.1

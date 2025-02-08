@@ -3,6 +3,7 @@ package br.com.wa_docs.project.controllers;
 import java.net.URI;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wa_docs.project.domain.Project;
 import br.com.wa_docs.project.dtos.CreateProjectDto;
+import br.com.wa_docs.project.dtos.ResponseDefaultDto;
+import br.com.wa_docs.project.dtos.ResponseProjectDto;
 import br.com.wa_docs.project.mappers.ProjectMapper;
 import br.com.wa_docs.project.services.IProjectService;
 
@@ -25,26 +28,32 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createProject(@RequestBody CreateProjectDto createProject) {
+    public ResponseEntity<ResponseDefaultDto> createProject(@RequestBody CreateProjectDto createProject) {
         try {
             projectService.createProject(createProject);
             return ResponseEntity.created(
-                    URI.create("/api/v1/project/" + createProject.name())).body(
-                            "Project created successfully");
+                    URI.create("/api/v1/project/")).body(
+                            new ResponseDefaultDto("Project created successfully"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(
+                    new ResponseDefaultDto(e.getMessage()));
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getProjectById(@PathVariable Long id) {
-        try {
-            Project project = this.projectService.getProjectById(id);
-            return ResponseEntity.ok().body(
-                    ProjectMapper.toResponseProjectDto(project));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<ResponseProjectDto> getProjectById(@PathVariable Long id) {
+        Project project = this.projectService.getProjectById(id);
+        ResponseProjectDto responseProjectDto = ProjectMapper.toResponseProjectDto(project);
+        return ResponseEntity.ok(responseProjectDto);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseDefaultDto> deleteProject(@PathVariable Long id) {
+        try {
+            projectService.deleteProject(id);
+            return ResponseEntity.ok(new ResponseDefaultDto("Project deleted successfully"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ResponseDefaultDto(e.getMessage()));
+        }
+    }
 }

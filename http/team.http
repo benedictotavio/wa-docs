@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
     "name": "test_team",
-    "ownerId": "453"
+    "ownerId": 1
 }
 
 # @name GetTeam
@@ -25,4 +25,5 @@ Content-Type: application/json
 }
 
 # @name DeleteTeam
+###
 DELETE {{url}}/1 HTTP/1.1

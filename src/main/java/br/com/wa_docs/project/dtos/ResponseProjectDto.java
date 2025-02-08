@@ -1,12 +1,10 @@
 package br.com.wa_docs.project.dtos;
 
-import br.com.wa_docs.team.domains.Team;
-import br.com.wa_docs.user.domains.User;
+import br.com.wa_docs.team.dtos.ResponseTeamDto;
 
 public record ResponseProjectDto(
-        Long id,
-        String name,
-        String description,
-        Team team,
-        User owner) {
+                Long id,
+                String name,
+                String description,
+                ResponseTeamDto team) {
 }
