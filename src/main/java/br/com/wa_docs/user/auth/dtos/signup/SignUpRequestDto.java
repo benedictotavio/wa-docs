@@ -13,5 +13,10 @@ public record SignUpRequestDto(
 
         @NotBlank(message = "Password cannot be blank") @NotNull(message = "Password cannot be null") @Size(min = 6, max = 20, message = "Password must be between 6 and 20 characters") @NotEmpty(message = "Password cannot be empty") String password,
 
-        @NotBlank(message = "Confirm password cannot be blank") @NotNull(message = "Confirm password cannot be null") @NotEmpty(message = "Confirm password cannot be empty") String confirmPassword) {
+        @NotBlank(message = "Confirm password cannot be blank") @NotNull(message = "Confirm password cannot be null") @NotEmpty(message = "Confirm password cannot be empty") String confirmPassword,
+        
+        @NotBlank(message = "Role cannot be blank") @NotNull(message = "Role cannot be null") @NotEmpty(message = "Role cannot be empty")
+        String role
+        
+        ) {
 }

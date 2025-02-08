@@ -11,6 +11,7 @@ public class AuthMappers {
         return new User(
                 signUpRequest.username(),
                 signUpRequest.email(),
-                signUpRequest.password());
+                signUpRequest.password(),
+                signUpRequest.role());
     }
 }

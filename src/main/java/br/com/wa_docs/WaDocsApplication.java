@@ -24,19 +24,24 @@ public class WaDocsApplication {
 	CommandLineRunner run(UserRepository userRepository, RoleRepository roleRepository,
 			PasswordEncoder passwordEncoder) {
 		return args -> {
-			if (userRepository.findByEmail("admin@email.com").isPresent())
-				return;
-			if (roleRepository.findByAuthority(ERole.ADMIN).isPresent())
-				return;
-			roleRepository.save(new Role(ERole.ADMIN));
-			roleRepository.save(new Role(ERole.USER));
 
-			User admin = new User(
-					"admin",
-					"admin@email.com",
-					passwordEncoder.encode("password"));
+			for (String arg : args) {
 
-			userRepository.save(admin);
+				if (userRepository.findByEmail("admin@email.com").isPresent())
+					return;
+				if (roleRepository.findByAuthority(ERole.ADMIN).isPresent())
+					return;
+				roleRepository.save(new Role(ERole.ADMIN));
+				roleRepository.save(new Role(ERole.USER));
+
+				User admin = new User(
+						"admin",
+						"admin@email.com",
+						passwordEncoder.encode("password"),
+						arg);
+
+				userRepository.save(admin);
+			}
 
 		};
 	}

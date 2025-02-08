@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.wa_docs.team.domains.Team;
 import br.com.wa_docs.user.auth.domains.ProjectRole;
+import br.com.wa_docs.user.auth.domains.Role;
+import br.com.wa_docs.user.auth.enums.ERole;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -46,6 +48,9 @@ public class User implements UserDetails {
     @Column
     private String password;
 
+    @Column
+    private Role role;
+
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     @JoinColumn(name = "team_id", nullable = true, referencedColumnName = "team_id")
     private transient Team team;
@@ -59,13 +64,14 @@ public class User implements UserDetails {
     @Column(name = "updated_at", nullable = true)
     private LocalDate updatedAt;
 
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, String role) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.projectRoles = new HashSet<>();
         this.createdAt = LocalDate.now();
         this.updatedAt = LocalDate.now();
+        this.role = new Role(ERole.valueOf(role.toUpperCase()));
     }
 
     public ProjectRole addProjectRole(ProjectRole projectRole) {

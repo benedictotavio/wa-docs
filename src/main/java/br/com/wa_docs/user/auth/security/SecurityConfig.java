@@ -2,6 +2,7 @@ package br.com.wa_docs.user.auth.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -29,7 +30,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable())
                 .authorizeHttpRequests(
-                        auth -> auth.anyRequest().permitAll())
+                        auth -> auth.requestMatchers("/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/project").hasRole("ADMIN")
+                                .anyRequest().permitAll())
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
 
