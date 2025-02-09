@@ -1,5 +1,7 @@
 package br.com.wa_docs.folder.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import br.com.wa_docs.folder.domains.Folder;
@@ -24,5 +26,18 @@ public class FolderService implements IFolderService {
         return this.folderRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Folder not found"));
     }
+
+    @Override
+    public List<Folder> getFolderByProjectId(Long projectId, Long parentId) {
+        return this.folderRepository.findByProjectIdAndParentId(projectId, parentId);
+     }
+
+    @Override
+    public Folder updateFolder(Folder folder) {
+        Folder folderSaved = this.getFolderById(folder.getId());
+        folderSaved.setName(folder.getName());
+        folderSaved.setParent(folder.getParent());
+        return this.folderRepository.save(folderSaved);
+     }
 
 }

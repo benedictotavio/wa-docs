@@ -30,7 +30,6 @@ public class RequestService implements IRequestService {
         requestSaved.setMethod(request.getMethod());
         requestSaved.setBody(request.getBody());
         requestSaved.setHeaders(request.getHeaders());
-        requestSaved.setResponse(request.getResponse());
         this.requestRepository.save(request);
     }
 

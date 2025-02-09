@@ -8,6 +8,5 @@ public record CreateRequestDto(
         HttpMethod method,
         String body,
         String headers,
-        String response,
         Long folderId) {
 }

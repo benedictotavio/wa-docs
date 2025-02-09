@@ -23,7 +23,6 @@ public class RequestMapper {
                 createRequestDto.method(),
                 createRequestDto.body(),
                 createRequestDto.headers(),
-                createRequestDto.response(),
                 this.folderService.getFolderById(createRequestDto.folderId())
                 );
     }
@@ -34,8 +33,7 @@ public class RequestMapper {
                 request.getUri(),
                 request.getMethod().getValue(),
                 request.getBody(),
-                request.getHeaders(),
-                request.getResponse()
+                request.getHeaders()
         );
     }
 }

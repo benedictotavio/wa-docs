@@ -39,19 +39,16 @@ public class Request {
 
     private String headers;
 
-    private String response;
-
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "folder_id")
     private Folder folder;
 
-    public Request(String name, String uri, HttpMethod method, String body, String headers, String response, Folder folder) {
+    public Request(String name, String uri, HttpMethod method, String body, String headers, Folder folder) {
         this.name = name;
         this.uri = uri;
         this.method = method;
         this.body = body;
         this.headers = headers;
-        this.response = response;
         this.folder = folder;
     }
 
@@ -89,12 +86,5 @@ public class Request {
             return;
         }
         this.headers = headers;
-    }
-
-    public void setResponse(String response) {
-        if (response == null || response.isEmpty()) {
-            return;
-        }
-        this.response = response;
     }
 }

@@ -1,17 +1,23 @@
 package br.com.wa_docs.folder.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wa_docs.folder.domains.Folder;
 import br.com.wa_docs.folder.dtos.CreateFolderDto;
 import br.com.wa_docs.folder.dtos.ResponseFolderDefaultDto;
 import br.com.wa_docs.folder.dtos.ResponseFolderDto;
+import br.com.wa_docs.folder.dtos.UpdateFolderDto;
 import br.com.wa_docs.folder.mappers.FolderMappers;
 import br.com.wa_docs.folder.services.IFolderService;
 
@@ -47,4 +53,31 @@ public class FolderController {
         }
     }
 
+    @GetMapping("/tree")
+    public ResponseEntity<List<ResponseFolderDto>> getFolderTree(@RequestParam Long projectId,
+            @RequestParam Long parentId) {
+        List<Folder> folders = this.folderService.getFolderByProjectId(projectId, parentId);
+        List<ResponseFolderDto> responseFolderDtos = new ArrayList<>();
+        for (Folder folder : folders) {
+            responseFolderDtos.add(
+                    this.folderMappers.toResponseFolderDto(folder));
+        }
+        return ResponseEntity.ok(responseFolderDtos);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ResponseFolderDefaultDto> updateFolder(@PathVariable Long id,
+            @RequestBody UpdateFolderDto updateFolderDto) {
+        try {
+            Folder folder = this.folderMappers.toFolder(updateFolderDto);
+            folder.setId(id);
+            Folder updatedFolder = this.folderService.updateFolder(folder);
+            return ResponseEntity.ok(
+                    new ResponseFolderDefaultDto(
+                            updatedFolder.getId(),
+                            updatedFolder.getName()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

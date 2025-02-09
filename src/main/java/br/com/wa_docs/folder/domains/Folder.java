@@ -2,7 +2,6 @@ package br.com.wa_docs.folder.domains;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,6 @@ import br.com.wa_docs.project.domain.Project;
 import br.com.wa_docs.request.domains.Request;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "folders")
 public class Folder {
@@ -58,5 +56,44 @@ public class Folder {
     public void addSubFolder(Folder subFolder) {
         subFolders.add(subFolder);
         subFolder.setParent(this);
+    }
+
+    public void removeSubFolder(Folder subFolder) {
+        subFolders.remove(subFolder);
+        subFolder.setParent(null);
+    }
+
+    public void setParent(Folder parent) {
+        if (parent == null)
+            return;
+        this.parent = parent;
+    }
+
+    public void setName(String name) {
+        if (name == null) {
+            return;
+        }
+        this.name = name;
+    }
+
+    public void setProject(Project project) {
+        if (project == null) {
+            return;
+        }
+        this.project = project;
+    }
+
+    public void setRequests(List<Request> requests) {
+        if (requests == null) {
+            return;
+        }
+        this.requests = requests;
+    }
+
+    public void setId(Long id) {
+        if (id == null) {
+            return;
+        }
+        this.id = id;
     }
 }
