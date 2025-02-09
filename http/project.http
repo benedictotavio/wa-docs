@@ -14,8 +14,13 @@ Content-Type: application/json
 
 ###
 # @name GetProject
-GET {{url}}/7 HTTP/1.1
+GET {{url}}/1 HTTP/1.1
 
 ###
 # @name DeleteProject
 DELETE {{url}}/1 HTTP/1.1
+
+
+###
+# @name CreateFolderInProject
+POST {{url}}/1/folder/Test HTTP/1.1

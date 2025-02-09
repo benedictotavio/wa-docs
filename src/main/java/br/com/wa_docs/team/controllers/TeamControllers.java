@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wa_docs.team.domains.Team;
 import br.com.wa_docs.team.dtos.CreateTeamDto;
+import br.com.wa_docs.team.dtos.ResponseTeamDefaultDto;
 import br.com.wa_docs.team.dtos.ResponseTeamDto;
 import br.com.wa_docs.team.dtos.UpdateTeamDto;
 import br.com.wa_docs.team.mappers.TeamMappers;
@@ -36,33 +37,46 @@ public class TeamControllers {
     }
 
     @PostMapping
-    public ResponseEntity<String> createTeam(@RequestBody CreateTeamDto createTeamDto) {
+    public ResponseEntity<ResponseTeamDefaultDto> createTeam(@RequestBody CreateTeamDto createTeamDto) {
         try {
             Team newTeam = this.teamService.createTeam(createTeamDto);
             return ResponseEntity.created(
-                    URI.create("/api/v1/team/")).body(newTeam.getName());
+                    URI.create("/api/v1/team/")).body(
+                            new ResponseTeamDefaultDto(newTeam.getTeamId(), "Team created successfully"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(
+                    new ResponseTeamDefaultDto(null, e.getMessage()));
         }
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<String> updateTeam(@PathVariable Long id, @RequestBody UpdateTeamDto team) {
+    public ResponseEntity<ResponseTeamDefaultDto> updateTeam(@PathVariable Long id, @RequestBody UpdateTeamDto team) {
         try {
-            Team updatedTeam = this.teamService.updateTeam(id,
-                    new Team(
-                            team.name()));
-            return ResponseEntity.ok(updatedTeam.getName());
+            this.teamService.updateTeam(id, new Team(team.name()));
+            return ResponseEntity.ok(
+                    new ResponseTeamDefaultDto(id, "Team updated successfully"));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTeam(@PathVariable Long id) {
+    public ResponseEntity<ResponseTeamDefaultDto> deleteTeam(@PathVariable Long id) {
         try {
             this.teamService.deleteTeam(id);
-            return ResponseEntity.ok("Team deleted successfully");
+            return ResponseEntity.ok(
+                    new ResponseTeamDefaultDto(id, "Team deleted successfully"));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/bulk")
+    public ResponseEntity<ResponseTeamDefaultDto> deleteManyTeams(@RequestBody Long[] ids) {
+        try {
+            this.teamService.deleteManyTeams(ids);
+            return ResponseEntity.ok(
+                    new ResponseTeamDefaultDto(null, "Teams deleted successfully"));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }

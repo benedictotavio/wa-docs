@@ -1,5 +1,6 @@
 package br.com.wa_docs.team.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -29,17 +30,15 @@ public class TeamService implements ITeamService {
             return team.get();
         } else {
             throw new TeamNotFoundException(
-                String.format("Equipe com o id %d não encontrado.", id)
-            );
+                    String.format("Equipe com o id %d não encontrado.", id));
         }
     }
 
     @Override
     public Team createTeam(CreateTeamDto createTeamDto) {
-         Team team = new Team( 
-            createTeamDto.name(),
-            this.userService.getUserById(createTeamDto.ownerId())
-         );
+        Team team = new Team(
+                createTeamDto.name(),
+                this.userService.getUserById(createTeamDto.ownerId()));
         return this.teamRepository.save(team);
     }
 
@@ -53,6 +52,12 @@ public class TeamService implements ITeamService {
     @Override
     public void deleteTeam(Long id) {
         this.teamRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteManyTeams(Long[] ids) {
+        this.teamRepository.deleteAllByIdInBatch(
+                List.of(ids));
     }
 
 }

@@ -1,6 +1,6 @@
 package br.com.wa_docs.request.domains;
 
-import br.com.wa_docs.project.domain.Project;
+import br.com.wa_docs.folder.domains.Folder;
 import br.com.wa_docs.request.enums.HttpMethod;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -42,17 +42,17 @@ public class Request {
     private String response;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id", referencedColumnName = "id")
-    private Project project;
+    @JoinColumn(name = "folder_id")
+    private Folder folder;
 
-    public Request(String name, String uri, HttpMethod method, String body, String headers, String response, Project project) {
+    public Request(String name, String uri, HttpMethod method, String body, String headers, String response, Folder folder) {
         this.name = name;
         this.uri = uri;
         this.method = method;
         this.body = body;
         this.headers = headers;
         this.response = response;
-        this.project = project;
+        this.folder = folder;
     }
 
     public void setName(String name) {

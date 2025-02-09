@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wa_docs.user.domains.User;
+import br.com.wa_docs.user.dtos.UserResponseDto;
+import br.com.wa_docs.user.mappers.UserMapper;
 import br.com.wa_docs.user.services.IUserService;
 
 @RestController
@@ -20,7 +22,9 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getUserById(id));
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        return ResponseEntity.ok(
+                UserMapper.toUserResponseDto(user));
     }
 }

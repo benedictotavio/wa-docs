@@ -12,7 +12,7 @@ Content-Type: application/json
 
 # @name GetTeam
 ###
-GET {{url}}/1 HTTP/1.1
+GET {{url}}/2 HTTP/1.1
 
 
 # @name UpdateTeam
@@ -27,3 +27,13 @@ Content-Type: application/json
 # @name DeleteTeam
 ###
 DELETE {{url}}/1 HTTP/1.1
+
+
+# @name DeleteManyTeams
+###
+DELETE {{url}}/bulk HTTP/1.1
+Content-Type: application/json
+
+[
+    2,
+]

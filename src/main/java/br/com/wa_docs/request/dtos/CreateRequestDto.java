@@ -9,5 +9,5 @@ public record CreateRequestDto(
         String body,
         String headers,
         String response,
-        Long projectId) {
+        Long folderId) {
 }

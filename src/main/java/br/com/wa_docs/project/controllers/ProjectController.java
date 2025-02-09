@@ -56,4 +56,15 @@ public class ProjectController {
             return ResponseEntity.badRequest().body(new ResponseDefaultDto(e.getMessage()));
         }
     }
+
+    @PostMapping("/{projectId}/folder/{folderName}")
+    public ResponseEntity<ResponseDefaultDto> addFolderToProject(@PathVariable Long projectId,
+            @PathVariable String folderName) {
+        try {
+            projectService.addFolderToProject(projectId, folderName);
+            return ResponseEntity.ok(new ResponseDefaultDto("Folder added to project successfully"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ResponseDefaultDto(e.getMessage()));
+        }
+    }
 }

@@ -2,7 +2,7 @@ package br.com.wa_docs.request.mappers;
 
 import org.springframework.stereotype.Component;
 
-import br.com.wa_docs.project.services.ProjectService;
+import br.com.wa_docs.folder.services.IFolderService;
 import br.com.wa_docs.request.domains.Request;
 import br.com.wa_docs.request.dtos.CreateRequestDto;
 import br.com.wa_docs.request.dtos.ResponseRequestDto;
@@ -10,10 +10,10 @@ import br.com.wa_docs.request.dtos.ResponseRequestDto;
 @Component
 public class RequestMapper {
 
-    private final ProjectService projectService;
+    private final IFolderService folderService;
 
-    public RequestMapper(ProjectService projectService) {
-        this.projectService = projectService;
+    public RequestMapper(IFolderService folderService) {
+        this.folderService = folderService;
     }
 
     public Request toRequest(CreateRequestDto createRequestDto) {
@@ -24,7 +24,8 @@ public class RequestMapper {
                 createRequestDto.body(),
                 createRequestDto.headers(),
                 createRequestDto.response(),
-                this.projectService.getProjectById(createRequestDto.projectId()));
+                this.folderService.getFolderById(createRequestDto.folderId())
+                );
     }
 
     public ResponseRequestDto toResponseRequestDto(Request request) {

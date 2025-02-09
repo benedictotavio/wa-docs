@@ -12,4 +12,6 @@ public interface IRequestService {
     void deleteMany(Long[] requestIds);
 
     Request findById(Long id);
+
+    Request execute(Request request);
 }

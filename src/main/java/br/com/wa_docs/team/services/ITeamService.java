@@ -11,4 +11,6 @@ public interface ITeamService {
     Team updateTeam(Long id, Team team);
 
     void deleteTeam(Long id);
+
+    void deleteManyTeams(Long[] ids);
 }

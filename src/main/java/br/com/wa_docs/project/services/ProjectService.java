@@ -2,22 +2,27 @@ package br.com.wa_docs.project.services;
 
 import org.springframework.stereotype.Service;
 
+import br.com.wa_docs.folder.domains.Folder;
+import br.com.wa_docs.folder.services.IFolderService;
 import br.com.wa_docs.project.domain.Project;
 import br.com.wa_docs.project.dtos.CreateProjectDto;
 import br.com.wa_docs.project.mappers.ProjectMapper;
 import br.com.wa_docs.project.repositories.ProjectRepository;
-import br.com.wa_docs.team.services.TeamService;
-import br.com.wa_docs.user.services.UserService;
+import br.com.wa_docs.team.services.ITeamService;
+import br.com.wa_docs.user.services.IUserService;
 
 @Service
 public class ProjectService implements IProjectService {
 
     private final ProjectRepository projectRepository;
-    private final TeamService teamService;
-    private final UserService userService;
+    private final IFolderService folderService;
+    private final ITeamService teamService;
+    private final IUserService userService;
 
-    public ProjectService(ProjectRepository projectRepository, TeamService teamService, UserService userService) {
+    public ProjectService(ProjectRepository projectRepository, IFolderService folderService,
+            ITeamService teamService, IUserService userService) {
         this.projectRepository = projectRepository;
+        this.folderService = folderService;
         this.teamService = teamService;
         this.userService = userService;
     }
@@ -37,6 +42,16 @@ public class ProjectService implements IProjectService {
     @Override
     public void deleteProject(Long id) {
         projectRepository.deleteById(id);
+    }
+
+    @Override
+    public void addFolderToProject(Long projectId, String folderName) {
+        Project project = this.getProjectById(projectId);
+        Folder folder = this.folderService.createFolder(
+            new Folder(folderName, null, project)
+        );
+        project.addFolder(folder);
+        projectRepository.save(project);
     }
 
 }

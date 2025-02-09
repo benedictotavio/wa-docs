@@ -3,6 +3,7 @@ package br.com.wa_docs.request.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wa_docs.request.domains.Request;
 import br.com.wa_docs.request.dtos.CreateRequestDto;
+import br.com.wa_docs.request.dtos.ResponseRequestDefaultDto;
 import br.com.wa_docs.request.dtos.ResponseRequestDto;
 import br.com.wa_docs.request.mappers.RequestMapper;
 import br.com.wa_docs.request.services.IRequestService;
@@ -28,33 +30,36 @@ public class RequestController {
     }
 
     @PostMapping()
-    public ResponseEntity<String> create(@RequestBody CreateRequestDto request) {
+    public ResponseEntity<ResponseRequestDefaultDto> create(@RequestBody CreateRequestDto request) {
         try {
             this.requestService.save(
                     this.requestMapper.toRequest(request));
-            return ResponseEntity.ok("Request created successfully");
+            return ResponseEntity.ok(
+                    new ResponseRequestDefaultDto("Created request successfully", "OK"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error creating request");
+            return ResponseEntity.badRequest().build();
         }
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public ResponseEntity<ResponseRequestDefaultDto> delete(@PathVariable Long id) {
         try {
             this.requestService.delete(id);
-            return ResponseEntity.ok("Request deleted successfully");
+            return ResponseEntity.ok(
+                    new ResponseRequestDefaultDto("Delete request successfully", "OK"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error deleting request");
+            return ResponseEntity.badRequest().build();
         }
     }
 
     @DeleteMapping("/bulk")
-    public ResponseEntity<String> deleteMany(@RequestBody Long[] ids) {
+    public ResponseEntity<ResponseRequestDefaultDto> deleteMany(@RequestBody Long[] ids) {
         try {
             this.requestService.deleteMany(ids);
-            return ResponseEntity.ok("Request deleted successfully");
+            return ResponseEntity.ok(
+                    new ResponseRequestDefaultDto("Delete request successfully", "OK"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error deleting request");
+            return ResponseEntity.badRequest().build();
         }
     }
 
@@ -69,4 +74,15 @@ public class RequestController {
         }
     }
 
+    @PatchMapping("{id}")
+    public ResponseEntity<ResponseRequestDefaultDto> update(@PathVariable Long id,
+            @RequestBody CreateRequestDto request) {
+        try {
+            this.requestService.update(this.requestMapper.toRequest(request));
+            return ResponseEntity.ok(
+                    new ResponseRequestDefaultDto("Update request successfully", "OK"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

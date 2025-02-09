@@ -42,12 +42,16 @@ public class RequestService implements IRequestService {
     @Override
     public Request findById(Long id) {
         return this.requestRepository.findById(id).orElseThrow(
-            () -> new NotFoundRequestException("Request not found")
-        );
+                () -> new NotFoundRequestException("Request not found"));
     }
 
     @Override
     public void deleteMany(Long[] requestIds) {
         this.requestRepository.deleteAllByIdInBatch(Arrays.asList(requestIds));
+    }
+
+    @Override
+    public Request execute(Request request) {
+        return this.requestRepository.save(request);
     }
 }

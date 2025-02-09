@@ -2,7 +2,7 @@ package br.com.wa_docs.project.domain;
 
 import java.util.List;
 
-import br.com.wa_docs.request.domains.Request;
+import br.com.wa_docs.folder.domains.Folder;
 import br.com.wa_docs.team.domains.Team;
 import br.com.wa_docs.user.domains.User;
 import jakarta.persistence.CascadeType;
@@ -29,6 +29,7 @@ public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "project_id")
     private Long id;
 
     @Column
@@ -46,13 +47,18 @@ public class Project {
     private User owner;
 
     @OneToMany(mappedBy = "project")
-    private List<Request> requests;
+    private List<Folder> folders;
 
     public Project(String name, String description, Team team, User owner) {
         this.name = name;
         this.description = description;
         this.team = team;
         this.owner = owner;
-        this.requests = List.of();
+        this.folders = List.of();
+    }
+
+    public Folder addFolder(Folder folder) {
+        this.folders.add(folder);
+        return folder;
     }
 }
