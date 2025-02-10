@@ -1,9 +1,7 @@
-package br.com.wa_docs.request.domains;
+package br.com.wa_docs.mockserver.domains;
 
-import br.com.wa_docs.folder.domains.Folder;
+import br.com.wa_docs.project.domain.Project;
 import br.com.wa_docs.request.enums.HttpMethod;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -16,18 +14,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Entity
-@Table(name = "requests")
-public class Request {
+@Table(name = "mockservers")
+public class Mockserver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "request_id")
     private Long id;
 
     private String name;
@@ -41,25 +36,21 @@ public class Request {
 
     private String headers;
 
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @JoinColumn(name = "folder_id")
-    private Folder folder;
+    private String response;
 
-    public Request(String name, String uri, HttpMethod method, String body, String headers, Folder folder) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+    public Mockserver(String name, String uri, HttpMethod method, String body, String headers, String response,
+            Project project) {
         this.name = name;
         this.uri = uri;
         this.method = method;
         this.body = body;
         this.headers = headers;
-        this.folder = folder;
-    }
-
-    public void setName(String name) {
-        if (name == null || name.isEmpty()) {
-            return;
-        }
-
-        this.name = name;
+        this.response = response;
+        this.project = project;
     }
 
     public void setUri(String uri) {
@@ -88,5 +79,12 @@ public class Request {
             return;
         }
         this.headers = headers;
+    }
+
+    public void setResponse(String response) {
+        if (response == null) {
+            return;
+        }
+        this.response = response;
     }
 }

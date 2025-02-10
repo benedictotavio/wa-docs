@@ -3,6 +3,7 @@ package br.com.wa_docs.project.domain;
 import java.util.List;
 
 import br.com.wa_docs.folder.domains.Folder;
+import br.com.wa_docs.mockserver.domains.Mockserver;
 import br.com.wa_docs.team.domains.Team;
 import br.com.wa_docs.user.domains.User;
 import jakarta.persistence.CascadeType;
@@ -49,16 +50,25 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<Folder> folders;
 
+    @OneToMany(mappedBy = "project")
+    private List<Mockserver> mockservers;
+
     public Project(String name, String description, Team team, User owner) {
         this.name = name;
         this.description = description;
         this.team = team;
         this.owner = owner;
         this.folders = List.of();
+        this.mockservers = List.of();
     }
 
     public Folder addFolder(Folder folder) {
         this.folders.add(folder);
         return folder;
+    }
+
+    public Mockserver addMockserver(Mockserver mockserver) {
+        this.mockservers.add(mockserver);
+        return mockserver;
     }
 }
