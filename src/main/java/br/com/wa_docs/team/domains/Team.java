@@ -34,6 +34,8 @@ public class Team {
 
     private String name;
 
+    private String description;
+
     private LocalDate createdAt;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -43,9 +45,10 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private Set<Project> projects;
 
-    public Team(String name, User owner) {
+    public Team(String name, String description, User owner) {
         this.name = name;
         this.owner = owner;
+        this.description = description;
         this.createdAt = LocalDate.now();
     }
 

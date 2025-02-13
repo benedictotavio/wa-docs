@@ -38,6 +38,7 @@ public class TeamService implements ITeamService {
     public Team createTeam(CreateTeamDto createTeamDto) {
         Team team = new Team(
                 createTeamDto.name(),
+                createTeamDto.description(),
                 this.userService.getUserById(createTeamDto.ownerId()));
         return this.teamRepository.save(team);
     }

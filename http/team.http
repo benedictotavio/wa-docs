@@ -7,6 +7,7 @@ Content-Type: application/json
 
 {
     "name": "test_team",
+    "description": "test_team_description",
     "ownerId": 1
 }
 
