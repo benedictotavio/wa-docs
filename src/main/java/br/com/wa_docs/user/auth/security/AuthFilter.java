@@ -64,13 +64,6 @@ public class AuthFilter extends OncePerRequestFilter {
 
     private UserDetails findUserByToken(String token) {
         var login = this.jwtService.validateToken(token);
-        UserDetails user = this.userRepository.findByEmail(login).orElse(null);
-
-        if (user == null) {
-            throw new UserNotFoundException(
-                    "Usuário não encontrado. Verifique o token e tente novamente.");
-        }
-
-        return user;
+        return this.userRepository.findByEmail(login).orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
     }
 }

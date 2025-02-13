@@ -38,7 +38,9 @@ public class AuthController {
                             this.authService.signUp(requestDto));
         } catch (Exception e) {
             System.out.printf("Erro ao realizar signup: %s", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    new SignUpResponseDto(
+                            e.getMessage(), null));
         }
     }
 

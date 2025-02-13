@@ -71,11 +71,8 @@ public class AuthService implements IAuthService {
     @Override
     public LoginResponseDto login(User user) {
         try {
-
             String tokenAuth = this.jwtService.generateToken(user);
-
-            return new LoginResponseDto(tokenAuth);
-
+                return new LoginResponseDto(tokenAuth);
         } catch (Exception e) {
             throw new UnathorizedException("Usuário ou senha inválidos");
         }

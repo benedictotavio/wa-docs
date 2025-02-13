@@ -18,6 +18,7 @@ import br.com.wa_docs.user.auth.enums.ERole;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,6 +36,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
+
+     private static final long serialVersionUID = 1905122041950251207L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -58,7 +61,7 @@ public class User implements UserDetails {
     @JoinColumn(name = "team_id", nullable = true, referencedColumnName = "team_id")
     private transient Team team;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<ProjectRole> projectRoles;
 
     @Column(name = "created_at", nullable = true, updatable = false)

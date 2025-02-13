@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = "security.jwt")
+@ConfigurationProperties(prefix = "jwt")
 public class JwtProperties {
     private String secretKey;
     private String issuer;
