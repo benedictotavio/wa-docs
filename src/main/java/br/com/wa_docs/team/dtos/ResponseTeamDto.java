@@ -5,5 +5,7 @@ import java.time.LocalDate;
 public record ResponseTeamDto(
         Long id,
         String name,
+        String description,
+        
         LocalDate createdAt) {
 }

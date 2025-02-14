@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import br.com.wa_docs.user.auth.domains.Role;
 import br.com.wa_docs.user.auth.enums.ERole;
 import br.com.wa_docs.user.auth.repositories.RoleRepository;
-import br.com.wa_docs.user.domains.User;
 import br.com.wa_docs.user.repositories.UserRepository;
 
 @SpringBootApplication
@@ -37,14 +36,6 @@ public class WaDocsApplication {
 					return;
 				roleRepository.save(new Role(ERole.ADMIN));
 				roleRepository.save(new Role(ERole.USER));
-
-				User admin = new User(
-						"admin",
-						"admin@email.com",
-						passwordEncoder.encode(arg),
-						arg);
-
-				userRepository.save(admin);
 			}
 
 		};

@@ -1,5 +1,7 @@
 package br.com.wa_docs.team.services;
 
+import java.util.List;
+
 import br.com.wa_docs.team.domains.Team;
 import br.com.wa_docs.team.dtos.CreateTeamDto;
 
@@ -13,4 +15,6 @@ public interface ITeamService {
     void deleteTeam(Long id);
 
     void deleteManyTeams(Long[] ids);
+
+    List<Team> getTeamsByOwnerId(Long ownerId);
 }

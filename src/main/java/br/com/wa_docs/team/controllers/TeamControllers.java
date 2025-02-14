@@ -1,6 +1,7 @@
 package br.com.wa_docs.team.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wa_docs.team.domains.Team;
@@ -19,7 +21,6 @@ import br.com.wa_docs.team.dtos.ResponseTeamDto;
 import br.com.wa_docs.team.dtos.UpdateTeamDto;
 import br.com.wa_docs.team.mappers.TeamMappers;
 import br.com.wa_docs.team.services.ITeamService;
-
 @RestController
 @RequestMapping("api/v1/team")
 public class TeamControllers {
@@ -81,4 +82,15 @@ public class TeamControllers {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping
+    public ResponseEntity<List<ResponseTeamDto>> getTeamByUserId(
+        @RequestParam(name = "user") Long id
+    ) {
+        List<Team> teams = this.teamService.getTeamsByOwnerId(id);
+        return ResponseEntity.ok(
+            teams.stream().map(TeamMappers::toResponseTeamDto).toList()
+        );
+    }
+    
 }

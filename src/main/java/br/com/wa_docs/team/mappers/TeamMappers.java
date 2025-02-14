@@ -10,6 +10,7 @@ public class TeamMappers {
         return new ResponseTeamDto(
             team.getTeamId(),
             team.getName(),
+            team.getDescription(),
             team.getCreatedAt()
         );
     }

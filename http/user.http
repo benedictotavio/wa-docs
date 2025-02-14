@@ -1,7 +1,12 @@
 @url = http://localhost:8080/api/v1/user
-@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ3YV9kb2NzIiwiaWF0IjoxNzM5NDg3MjcxLCJleHAiOjE3Mzk1MDE2NzEsInN1YiI6InRlc3RAZ21haWwuY29tIn0.wtKTJPeVJifrVfES98qhrfOE_RSfW8e6bct0rsrqWn8
+@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ3YV9kb2NzIiwiaWF0IjoxNzM5NDk4MTQwLCJleHAiOjE3Mzk1MTI1NDAsInN1YiI6ImJlbmVkaWN0b3RhdmlvQHR1YW1hZWFxdWVsYXVyc2EuY29tIn0.X5wqlnX7NpIVIZreKrfNjCnOlf6KIfecAW6rHn6kryI
 
 # @name getUser
 GET {{url}}/1 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+### @name getUsersByEmail
+GET {{url}}?email=benedictotavio@tuamaeaquelaursa.com HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}

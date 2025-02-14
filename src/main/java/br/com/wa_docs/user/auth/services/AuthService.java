@@ -5,7 +5,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import br.com.wa_docs.user.auth.dtos.login.LoginResponseDto;
 import br.com.wa_docs.user.auth.dtos.signup.SignUpRequestDto;
 import br.com.wa_docs.user.auth.dtos.signup.SignUpResponseDto;
 import br.com.wa_docs.user.auth.exceptions.PasswordsNotEqualsException;
@@ -69,10 +68,9 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    public LoginResponseDto login(User user) {
+    public String login(User user) {
         try {
-            String tokenAuth = this.jwtService.generateToken(user);
-                return new LoginResponseDto(tokenAuth);
+            return this.jwtService.generateToken(user);
         } catch (Exception e) {
             throw new UnathorizedException("Usuário ou senha inválidos");
         }

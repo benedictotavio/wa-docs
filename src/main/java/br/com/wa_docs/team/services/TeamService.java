@@ -61,4 +61,9 @@ public class TeamService implements ITeamService {
                 List.of(ids));
     }
 
+    @Override
+    public List<Team> getTeamsByOwnerId(Long ownerId) {
+        return this.teamRepository.findByOwnerId(ownerId);
+    }
+
 }

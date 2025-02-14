@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wa_docs.user.domains.User;
@@ -23,8 +24,25 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
-        User user = userService.getUserById(id);
+        try {
+            User user = userService.getUserById(id);
         return ResponseEntity.ok(
                 UserMapper.toUserResponseDto(user));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<UserResponseDto> getUser(@RequestParam String email) {
+        try {
+            User user = userService.getUserByEmail(email);
+            return ResponseEntity.ok(
+                    UserMapper.toUserResponseDto(user));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
     }
 }

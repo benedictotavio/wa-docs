@@ -1,10 +1,13 @@
 package br.com.wa_docs.project.dtos;
 
-import br.com.wa_docs.team.dtos.ResponseTeamDto;
+import java.util.List;
+
+import br.com.wa_docs.folder.dtos.ResponseFolderDto;
 
 public record ResponseProjectDto(
                 Long id,
                 String name,
                 String description,
-                ResponseTeamDto team) {
+                List<ResponseFolderDto> folders
+                ) {
 }

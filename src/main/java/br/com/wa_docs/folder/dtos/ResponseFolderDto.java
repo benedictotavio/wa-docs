@@ -2,7 +2,7 @@ package br.com.wa_docs.folder.dtos;
 
 public record ResponseFolderDto(
         Long folderId,
-        String folderNanameme,
+        String folderName,
         Long parentFolderId,
         Long projectId) {
 

@@ -5,8 +5,8 @@ services:
     container_name: wa_docs_postgres
     restart: always
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER:-wa_docs}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-wa_docs}
     ports:
       - 5432:5432
     volumes:

@@ -1,5 +1,7 @@
 package br.com.wa_docs.project.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import br.com.wa_docs.folder.domains.Folder;
@@ -53,5 +55,10 @@ public class ProjectService implements IProjectService {
         project.addFolder(folder);
         projectRepository.save(project);
     }
+
+    @Override
+    public List<Project> getProjectByOwner(Long owner) {
+        return projectRepository.findByOwnerId(owner);
+     }
 
 }

@@ -37,11 +37,11 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 public class User implements UserDetails {
 
-     private static final long serialVersionUID = 1905122041950251207L;
+    private static final long serialVersionUID = 1905122041950251207L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
+    @Column(name = "user_id")
     private Long id;
 
     @Column(unique = true)
@@ -57,9 +57,8 @@ public class User implements UserDetails {
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     private Role role;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-    @JoinColumn(name = "team_id", nullable = true, referencedColumnName = "team_id")
-    private transient Team team;
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Team> team;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<ProjectRole> projectRoles;
