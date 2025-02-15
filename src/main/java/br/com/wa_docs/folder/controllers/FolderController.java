@@ -33,6 +33,21 @@ public class FolderController {
         this.folderMappers = folderMappers;
     }
 
+    @PostMapping
+    public ResponseEntity<ResponseFolderDefaultDto> createFolder(@RequestBody CreateFolderDto createFolderDto) {
+        try {
+            Folder folder = this.folderMappers.toFolder(createFolderDto);
+            Folder createdFolder = this.folderService.createFolder(folder);
+            return ResponseEntity.ok(
+                    new ResponseFolderDefaultDto(
+                            null, createdFolder.getName()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    new ResponseFolderDefaultDto(
+                            null, e.getMessage()));
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ResponseFolderDto> getFolderById(@PathVariable Long id) {
         Folder folder = this.folderService.getFolderById(id);

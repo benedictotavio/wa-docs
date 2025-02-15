@@ -11,10 +11,6 @@ public record CreateFolderDto(
         @NotNull(message = "Name is required")
         String name,
 
-        @NotNull(message = "Parent is required")
-        @NotBlank(message = "Parent is required")
-        @NotEmpty(message = "Parent is required")
-        @Min(value = 1, message = "Parent is required")
         Long parentId,
 
         @NotNull(message = "Project is required")

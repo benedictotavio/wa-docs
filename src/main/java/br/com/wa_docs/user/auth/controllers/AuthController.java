@@ -52,10 +52,8 @@ public class AuthController {
                     loginRequestDto.password());
 
             Authentication auth = this.authenticationManager.authenticate(login);
-            return ResponseEntity.ok(
-                    new LoginResponseDto(
-                            this.authService.login(
-                                    (User) auth.getPrincipal())));
+            String token = this.authService.login((User) auth.getPrincipal());
+            return ResponseEntity.ok(new LoginResponseDto(token));
         } catch (Exception e) {
             System.out.printf("Erro ao realizar login: %s", e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

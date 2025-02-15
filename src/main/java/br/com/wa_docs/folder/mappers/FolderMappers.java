@@ -20,6 +20,12 @@ public class FolderMappers {
     }
 
     public Folder toFolder(CreateFolderDto createFolderDto) {
+
+        if (createFolderDto.parentId() == null) {
+            return new Folder(createFolderDto.name(),
+                    projectService.getProjectById(createFolderDto.projectId()));
+        }
+
         return new Folder(createFolderDto.name(),
                 folderService.getFolderById(createFolderDto.parentId()),
                 projectService.getProjectById(createFolderDto.projectId()));
