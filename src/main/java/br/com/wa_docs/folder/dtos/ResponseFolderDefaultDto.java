@@ -8,4 +8,8 @@ public record ResponseFolderDefaultDto(
     public ResponseFolderDefaultDto(Long id, String name) {
         this(id, name, System.currentTimeMillis());
     }
+
+    public ResponseFolderDefaultDto(String name) {
+        this(null, name, System.currentTimeMillis());
+    }
 }

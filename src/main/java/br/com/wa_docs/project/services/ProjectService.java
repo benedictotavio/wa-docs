@@ -47,11 +47,10 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public void addFolderToProject(Long projectId, String folderName) {
+    public void addFolderToProject(Long projectId, String folderName, Integer level) {
         Project project = this.getProjectById(projectId);
         Folder folder = this.folderService.createFolder(
-            new Folder(folderName, null, project)
-        );
+                new Folder(folderName, null, project, level));
         project.addFolder(folder);
         projectRepository.save(project);
     }
@@ -59,6 +58,6 @@ public class ProjectService implements IProjectService {
     @Override
     public List<Project> getProjectByOwner(Long owner) {
         return projectRepository.findByOwnerId(owner);
-     }
+    }
 
 }

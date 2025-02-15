@@ -4,9 +4,11 @@ public record ResponseFolderDto(
         Long folderId,
         String folderName,
         Long parentFolderId,
-        Long projectId) {
+        Long projectId,
+        Integer level
+        ) {
 
-    public ResponseFolderDto(Long folderId, String folderNanameme, Long projectId) {
-        this(folderId, folderNanameme, null, projectId);
+    public ResponseFolderDto(Long folderId, String folderNanameme, Long projectId, Integer level) {
+        this(folderId, folderNanameme, null, projectId, level);
     }
 }

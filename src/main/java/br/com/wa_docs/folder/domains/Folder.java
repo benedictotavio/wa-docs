@@ -21,6 +21,8 @@ public class Folder {
 
     private String name;
 
+    private Integer level;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Folder parent;
@@ -38,14 +40,15 @@ public class Folder {
     public Folder() {
     }
 
-    public Folder(String name, Project project) {
+    public Folder(String name, Project project, Integer level) {
         this.name = name;
         this.project = project;
         this.subFolders = new ArrayList<>();
         this.requests = new ArrayList<>();
+        this.level = level;
     }
 
-    public Folder(String name, Folder parent, Project project) {
+    public Folder(String name, Folder parent, Project project, Integer level) {
         this.name = name;
         this.parent = parent;
         this.project = project;

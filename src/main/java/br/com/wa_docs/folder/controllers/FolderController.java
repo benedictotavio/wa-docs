@@ -38,13 +38,10 @@ public class FolderController {
         try {
             Folder folder = this.folderMappers.toFolder(createFolderDto);
             Folder createdFolder = this.folderService.createFolder(folder);
-            return ResponseEntity.ok(
-                    new ResponseFolderDefaultDto(
-                            null, createdFolder.getName()));
+            return ResponseEntity.ok(new ResponseFolderDefaultDto(createdFolder.getName()));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(
-                    new ResponseFolderDefaultDto(
-                            null, e.getMessage()));
+                    new ResponseFolderDefaultDto(e.getMessage()));
         }
     }
 
@@ -69,8 +66,9 @@ public class FolderController {
     }
 
     @GetMapping("/tree")
-    public ResponseEntity<List<ResponseFolderDto>> getFolderTree(@RequestParam Long projectId,
-            @RequestParam Long parentId) {
+    public ResponseEntity<List<ResponseFolderDto>> getFolderTree(
+            @RequestParam Long projectId,
+            @RequestParam(required = false) Long parentId) {
         List<Folder> folders = this.folderService.getFolderByProjectId(projectId, parentId);
         List<ResponseFolderDto> responseFolderDtos = new ArrayList<>();
         for (Folder folder : folders) {

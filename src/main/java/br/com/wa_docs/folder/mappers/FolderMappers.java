@@ -23,12 +23,16 @@ public class FolderMappers {
 
         if (createFolderDto.parentId() == null) {
             return new Folder(createFolderDto.name(),
-                    projectService.getProjectById(createFolderDto.projectId()));
+                    projectService.getProjectById(createFolderDto.projectId()),
+                    createFolderDto.level()
+                    );
         }
 
         return new Folder(createFolderDto.name(),
                 folderService.getFolderById(createFolderDto.parentId()),
-                projectService.getProjectById(createFolderDto.projectId()));
+                projectService.getProjectById(createFolderDto.projectId()),
+                createFolderDto.level()
+                );
     }
 
     public Folder toFolder(UpdateFolderDto updateFolderDto) {
@@ -42,10 +46,10 @@ public class FolderMappers {
 
     public ResponseFolderDto toResponseFolderDto(Folder folder) {
         if (folder.getParent() == null) {
-            return new ResponseFolderDto(folder.getId(), folder.getName(), folder.getProject().getId());
+            return new ResponseFolderDto(folder.getId(), folder.getName(), folder.getProject().getId(), folder.getLevel());
         }
         return new ResponseFolderDto(folder.getId(), folder.getName(), folder.getParent().getId(),
-                folder.getProject().getId());
+                folder.getProject().getId(), folder.getLevel());
     }
 
 }

@@ -59,11 +59,19 @@ public class ProjectController {
         }
     }
 
-    @PostMapping("/{projectId}/folder/{folderName}")
-    public ResponseEntity<ResponseDefaultDto> addFolderToProject(@PathVariable Long projectId,
-            @PathVariable String folderName) {
+    public record CreateFolderToProject(
+            String folderName,
+            Integer level) {
+    }
+
+    @PostMapping("/{projectId}")
+    public ResponseEntity<ResponseDefaultDto> addFolderToProject(
+            @PathVariable Long projectId,
+            @RequestBody CreateFolderToProject createFolderToProject) {
         try {
-            projectService.addFolderToProject(projectId, folderName);
+            projectService.addFolderToProject(projectId,
+                    createFolderToProject.folderName(),
+                    createFolderToProject.level());
             return ResponseEntity.ok(new ResponseDefaultDto("Folder added to project successfully"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new ResponseDefaultDto(e.getMessage()));
@@ -74,7 +82,6 @@ public class ProjectController {
     public ResponseEntity<List<ResponseProjectDto>> getProjectByOwner(@RequestParam Long owner) {
         List<Project> projects = projectService.getProjectByOwner(owner);
         return ResponseEntity.ok(
-            projects.stream().map(ProjectMapper::toResponseProjectDto).toList()
-        );
+                projects.stream().map(ProjectMapper::toResponseProjectDto).toList());
     }
 }

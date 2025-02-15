@@ -34,7 +34,8 @@ public class ProjectMapper {
                     folder.getId(),
                     folder.getName(),
                     null,
-                    folder.getProject().getId()
+                    folder.getProject().getId(),
+                    folder.getLevel()
                 ));
                 continue;
             }
@@ -43,7 +44,8 @@ public class ProjectMapper {
                 folder.getId(),
                 folder.getName(),
                 folder.getParent().getId(),
-                folder.getProject().getId()
+                folder.getProject().getId(),
+                folder.getLevel()
             ));
         }
 

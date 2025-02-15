@@ -17,6 +17,12 @@ public record CreateFolderDto(
         @NotBlank(message = "Project is required")
         @NotEmpty(message = "Project is required")
         @Min(value = 1, message = "Project is required")
-        Long projectId
+        Long projectId,
+
+
+        @NotNull(message = "Level is required")
+        @NotBlank(message = "Level is required")
+        @NotEmpty(message = "Level is required")
+        Integer level
 ) {
 }
