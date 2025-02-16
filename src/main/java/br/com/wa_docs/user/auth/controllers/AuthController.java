@@ -52,7 +52,8 @@ public class AuthController {
                     loginRequestDto.password());
 
             Authentication auth = this.authenticationManager.authenticate(login);
-            String token = this.authService.login((User) auth.getPrincipal());
+            User user = (User) auth.getPrincipal();
+            String token = this.authService.login(user);
             return ResponseEntity.ok(new LoginResponseDto(token));
         } catch (Exception e) {
             System.out.printf("Erro ao realizar login: %s", e.getMessage());
