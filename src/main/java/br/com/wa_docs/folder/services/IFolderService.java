@@ -9,4 +9,5 @@ public interface IFolderService {
     Folder getFolderById(Long id);
     Folder updateFolder(Folder folder);
     List<Folder> getFolderByProjectId(Long projectId, Long parentId);
+    void deleteFolder(Long id);
 }

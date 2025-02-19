@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -89,6 +90,16 @@ public class FolderController {
                     new ResponseFolderDefaultDto(
                             updatedFolder.getId(),
                             updatedFolder.getName()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseFolderDefaultDto> deleteFolder(@PathVariable Long id) {
+        try {
+            this.folderService.deleteFolder(id);
+            return ResponseEntity.ok(new ResponseFolderDefaultDto("Folder deleted"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }

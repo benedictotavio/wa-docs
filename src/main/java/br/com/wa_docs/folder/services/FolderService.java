@@ -29,11 +29,12 @@ public class FolderService implements IFolderService {
 
     @Override
     public List<Folder> getFolderByProjectId(Long projectId, Long parentId) {
+
         if (parentId == null) {
             return this.folderRepository.findByProjectId(projectId);
         }
         return this.folderRepository.findByProjectIdAndParentId(projectId, parentId);
-     }
+    }
 
     @Override
     public Folder updateFolder(Folder folder) {
@@ -41,6 +42,11 @@ public class FolderService implements IFolderService {
         folderSaved.setName(folder.getName());
         folderSaved.setParent(folder.getParent());
         return this.folderRepository.save(folderSaved);
-     }
+    }
+
+    @Override
+    public void deleteFolder(Long id) {
+        this.folderRepository.deleteById(id);
+    }
 
 }
