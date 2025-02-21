@@ -1,5 +1,7 @@
 package br.com.wa_docs.request.controllers;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wa_docs.request.domains.Request;
@@ -29,13 +32,24 @@ public class RequestController {
         this.requestMapper = requestMappers;
     }
 
-    @PostMapping()
+    @GetMapping
+    public ResponseEntity<List<ResponseRequestDto>> getByFolderId(
+            @RequestParam(name = "folderId", required = false) Long id) {
+        try {
+            List<Request> requests = this.requestService.findByFolderId(id);
+            return ResponseEntity.ok(requests.stream().map(requestMapper::toResponseRequestDto).toList());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping
     public ResponseEntity<ResponseRequestDefaultDto> create(@RequestBody CreateRequestDto request) {
         try {
-            this.requestService.save(
+            Long id = this.requestService.save(
                     this.requestMapper.toRequest(request));
             return ResponseEntity.ok(
-                    new ResponseRequestDefaultDto("Created request successfully", "OK"));
+                    new ResponseRequestDefaultDto(id, "Created request successfully", "OK"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }

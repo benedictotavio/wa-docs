@@ -1,6 +1,7 @@
 package br.com.wa_docs.request.services;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -18,19 +19,18 @@ public class RequestService implements IRequestService {
     }
 
     @Override
-    public void save(Request request) {
-        this.requestRepository.save(request);
+    public Long save(Request request) {
+        return this.requestRepository.save(request).getId();
     }
 
     @Override
-    public void update(Request request) {
+    public Long update(Request request) {
         Request requestSaved = this.findById(request.getId());
         requestSaved.setName(request.getName());
         requestSaved.setUri(request.getUri());
         requestSaved.setMethod(request.getMethod());
-        requestSaved.setBody(request.getBody());
         requestSaved.setHeaders(request.getHeaders());
-        this.requestRepository.save(request);
+        return this.requestRepository.save(request).getId();
     }
 
     @Override
@@ -52,5 +52,10 @@ public class RequestService implements IRequestService {
     @Override
     public Request execute(Request request) {
         return this.requestRepository.save(request);
+    }
+
+    @Override
+    public List<Request> findByFolderId(Long folderId) {
+        return this.requestRepository.findByFolderId(folderId);
     }
 }

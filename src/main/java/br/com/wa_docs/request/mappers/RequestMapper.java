@@ -29,6 +29,7 @@ public class RequestMapper {
 
     public ResponseRequestDto toResponseRequestDto(Request request) {
         return new ResponseRequestDto(
+                request.getId(),
                 request.getName(),
                 request.getUri(),
                 request.getMethod().getValue(),
