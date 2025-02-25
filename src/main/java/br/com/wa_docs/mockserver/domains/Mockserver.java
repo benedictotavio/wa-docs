@@ -1,22 +1,23 @@
 package br.com.wa_docs.mockserver.domains;
 
 import br.com.wa_docs.project.domain.Project;
-import br.com.wa_docs.request.enums.HttpMethod;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
+@Setter
 @Entity
 @Table(name = "mockservers")
 public class Mockserver {
@@ -27,64 +28,45 @@ public class Mockserver {
 
     private String name;
 
-    private String uri;
+    // Todo: delete all requests when delete mockserver
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "request_id", referencedColumnName = "id")
+    private MockserverRequest request;
 
-    @Enumerated(EnumType.STRING)
-    private HttpMethod method;
-
-    private String body;
-
-    private String headers;
-
-    private String response;
+    //Todo: delete all responses when delete mockserver
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "response_id", referencedColumnName = "id")
+    private MockserverResponse response;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
 
-    public Mockserver(String name, String uri, HttpMethod method, String body, String headers, String response,
-            Project project) {
+    public Mockserver(String name, MockserverRequest request, MockserverResponse response, Project project) {
         this.name = name;
-        this.uri = uri;
-        this.method = method;
-        this.body = body;
-        this.headers = headers;
+        this.request = request;
         this.response = response;
         this.project = project;
     }
 
-    public void setUri(String uri) {
-        if (uri == null || uri.isEmpty()) {
+    public void setRequest(MockserverRequest request) {
+        if (request == null) {
             return;
         }
-        this.uri = uri;
+        this.request = request;
     }
 
-    public void setMethod(HttpMethod method) {
-        if (method == null) {
-            return;
-        }
-        this.method = method;
-    }
-
-    public void setBody(String body) {
-        if (body == null || body.isEmpty()) {
-            return;
-        }
-        this.body = body;
-    }
-
-    public void setHeaders(String headers) {
-        if (headers == null || headers.isEmpty()) {
-            return;
-        }
-        this.headers = headers;
-    }
-
-    public void setResponse(String response) {
+    public void setResponse(MockserverResponse response) {
         if (response == null) {
             return;
         }
         this.response = response;
+    }
+
+    public void setProject(Project project) {
+        if (project == null) {
+            return;
+        }
+        this.project = project;
     }
 }

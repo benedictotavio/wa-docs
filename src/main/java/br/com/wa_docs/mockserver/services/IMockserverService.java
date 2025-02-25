@@ -6,4 +6,5 @@ public interface IMockserverService {
     Mockserver create(Mockserver mockserver);
     Mockserver findById(Long id);
     void delete(Long id);
+    Mockserver update(Mockserver mockserver);
 }

@@ -28,7 +28,11 @@ public class JwtService {
             return JWT.create()
                     .withIssuer(jwtProperties.getIssuer()) 
                     .withIssuedAt(this.creationDate())
-                    .withExpiresAt(this.expirationDate())
+                    .withExpiresAt(
+                        ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("America/Sao_Paulo"))
+                            .plusMinutes(Long.parseLong(jwtProperties.getExpiration()))
+                            .toInstant()
+                    )
                     .withSubject(user.getEmail())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
@@ -63,9 +67,5 @@ public class JwtService {
 
     private Instant creationDate() {
         return ZonedDateTime.now(ZoneId.of("America/Recife")).toInstant();
-    }
-
-    private Instant expirationDate() {
-        return ZonedDateTime.now(ZoneId.of("America/Recife")).plusHours(4).toInstant();
     }
 }

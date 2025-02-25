@@ -32,7 +32,7 @@
 			<artifactId>spring-security-crypto</artifactId>
 			<version>6.4.2</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -99,6 +99,18 @@
 			<version>4.4.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.mock-server</groupId>
+			<artifactId>mockserver-netty-no-dependencies</artifactId>
+			<version>5.15.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mock-server</groupId>
+			<artifactId>mockserver-client-java-no-dependencies</artifactId>
+			<version>5.15.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -112,6 +124,35 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
+
+			<plugin>
+				<groupId>org.mock-server</groupId>
+				<artifactId>mockserver-maven-plugin</artifactId>
+				<version>5.15.0</version>
+				<configuration>
+					<serverPort>1080</serverPort>
+					<proxyPort>1090</proxyPort>
+					<logLevel>DEBUG</logLevel>
+					<initializationClass>org.mockserver.maven.ExampleInitializationClass</initializationClass>
+				</configuration>
+				<executions>
+					<execution>
+						<id>process-test-classes</id>
+						<phase>process-test-classes</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>verify</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

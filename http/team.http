@@ -1,6 +1,6 @@
 @url = http://localhost:8080/api/v1/team
 
-@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ3YV9kb2NzIiwiaWF0IjoxNzM5NTgxNjg3LCJleHAiOjE3Mzk1OTYwODcsInN1YiI6ImJlbmVkaWN0b3RhdmlvQHR1YW1hZWFxdWVsYXVyc2EuY29tIn0.ynANx0soCTOWBNSW9xf0y2x2RWPWLOvS2F4NBIdPadk
+@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ3YV9kb2NzIiwiaWF0IjoxNzQwNDM5NTQ2LCJleHAiOjE5NTY0Mzk1NDYsInN1YiI6ImJlbmVkaWN0b3RhdmlvQHR1YW1hZWFxdWVsYXVyc2EuY29tIn0.DQATb-NQgEb5KxEk8edoLLwgJFjN4wZ74k3JcD_YO-4
 
 # @name CreateTeam
 POST {{url}} HTTP/1.1

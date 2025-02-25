@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 public record MockserverResponseDto(
         String id,
         String name,
-        String uri,
+        String path,
         String method,
         String body,
         String headers,
