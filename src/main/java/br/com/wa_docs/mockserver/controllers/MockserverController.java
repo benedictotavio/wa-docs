@@ -34,20 +34,17 @@ public class MockserverController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(
-        @PathVariable Long id,
-        @RequestParam(required = false) Boolean asRequest
-        ) {
+            @PathVariable Long id,
+            @RequestParam(required = false) Boolean asRequest) {
         try {
             if (Boolean.TRUE.equals(asRequest)) {
                 Mockserver mockserver = this.mockserverService.findById(id);
                 return ResponseEntity.ok(
-                    mockserverMappers.toRequest(mockserver)
-                );
+                        mockserverMappers.toRequest(mockserver));
             }
             Mockserver mockserver = this.mockserverService.findById(id);
             return ResponseEntity.ok(
-                mockserverMappers.toMockserverResponse(mockserver)
-            );
+                    mockserverMappers.toMockserverResponse(mockserver));
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             return ResponseEntity.badRequest().build();
@@ -55,10 +52,17 @@ public class MockserverController {
     }
 
     @PostMapping
-    public ResponseEntity<MockserverDefaultResponseDto> create(@RequestBody CreateMockserverDto mockserverRequestDto) {
+    public ResponseEntity<MockserverDefaultResponseDto> create(
+            @RequestBody CreateMockserverDto mockserverRequestDto,
+            @RequestParam(required = false, name = "restTemplate") Boolean restTemplate) {
         try {
             Mockserver mockserver = this.mockserverMappers.toMockserver(mockserverRequestDto);
-            Mockserver newMockserver = this.mockserverService.create(mockserver);
+            Mockserver newMockserver;
+            if (Boolean.TRUE.equals(restTemplate)) {
+                newMockserver = this.mockserverService.createByRestTemplate(mockserver);
+            } else {
+                newMockserver = this.mockserverService.create(mockserver);
+            }
             return ResponseEntity.created(
                     URI.create("/api/v1/mockserver/")).body(
                             new MockserverDefaultResponseDto(

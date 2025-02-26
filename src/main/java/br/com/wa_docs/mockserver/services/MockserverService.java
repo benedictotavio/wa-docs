@@ -10,7 +10,9 @@ import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 import org.mockserver.model.Parameters;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import br.com.wa_docs.mockserver.configs.MockserverProperties;
 import br.com.wa_docs.mockserver.domains.Mockserver;
 import br.com.wa_docs.mockserver.repositories.MockserverRepository;
 
@@ -19,12 +21,14 @@ public class MockserverService implements IMockserverService {
 
     private final MockserverRepository mockserverRepository;
     private final MockServerClient mockServerClient;
+    private final MockserverProperties mockserverProperties;
 
-    public MockserverService(MockserverRepository mockserverRepository) {
+    public MockserverService(MockserverRepository mockserverRepository, MockserverProperties mockserverProperties) {
         this.mockserverRepository = mockserverRepository;
         this.mockServerClient = new MockServerClient(
                 "localhost",
                 1080);
+        this.mockserverProperties = mockserverProperties;
     }
 
     @Override
@@ -53,6 +57,12 @@ public class MockserverService implements IMockserverService {
     @Override
     public List<Mockserver> findByProjectId(Long projectId) {
         return this.mockserverRepository.findByProjectId(projectId);
+    }
+
+    @Override
+    public Mockserver createByRestTemplate(Mockserver mockserver) {
+        this.createMockByRestTemplate(mockserver);
+        return this.mockserverRepository.save(mockserver);
     }
 
     private Headers convertStringToHeaders(String headers) {
@@ -113,5 +123,13 @@ public class MockserverService implements IMockserverService {
                                                 TimeUnit.SECONDS,
                                                 1)));
 
+    }
+
+    private void createMockByRestTemplate(Mockserver mockserver) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.postForObject(
+                mockserverProperties.getHost() + mockserverProperties.getPort() + mockserver.getRequest().getPath(),
+                mockserver,
+                Mockserver.class);
     }
 }

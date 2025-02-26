@@ -10,5 +10,5 @@ public interface IMockserverService {
     List<Mockserver> findByProjectId(Long projectId);
     void delete(Long id);
     Mockserver update(Mockserver mockserver);
-    //TODO: Implement mockserver by REST Template
+    Mockserver createByRestTemplate(Mockserver mockserver);
 }

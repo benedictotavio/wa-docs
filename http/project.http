@@ -1,6 +1,6 @@
 @url = http://localhost:8080/api/v1/project
 
-@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ3YV9kb2NzIiwiaWF0IjoxNzQwNDg3MjE5LCJleHAiOjE5NTY0ODcyMTksInN1YiI6ImJlbmVkaWN0b3RhdmlvQHR1YW1hZWFxdWVsYXVyc2EuY29tIn0.qNMdc92yAxS7rfDfnfXe5l4Wth_Tosykvk23mawbpL8
+@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ3YV9kb2NzIiwiaWF0IjoxNzQwNjA4NzA4LCJleHAiOjE5NTY2MDg3MDgsInN1YiI6ImJlbmVkaWN0b3RhdmlvQHR1YW1hZWFxdWVsYXVyc2EuY29tIn0.pJC7LYN60dgiuWq1q0EpMOSbeht3JlAaJ-cWms1_Z4c
 
 # @name CreateProject
 POST {{url}} HTTP/1.1
