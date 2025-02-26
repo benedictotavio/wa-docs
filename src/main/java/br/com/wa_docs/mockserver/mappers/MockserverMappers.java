@@ -6,9 +6,11 @@ import br.com.wa_docs.mockserver.domains.Mockserver;
 import br.com.wa_docs.mockserver.domains.MockserverRequest;
 import br.com.wa_docs.mockserver.domains.MockserverResponse;
 import br.com.wa_docs.mockserver.dtos.CreateMockserverDto;
+import br.com.wa_docs.mockserver.dtos.MockserverResponseDto;
 import br.com.wa_docs.mockserver.repositories.MockserverRequestRepository;
 import br.com.wa_docs.mockserver.repositories.MockserverResponseRepository;
 import br.com.wa_docs.project.services.IProjectService;
+import br.com.wa_docs.request.domains.Request;
 import lombok.var;
 
 @Component
@@ -45,5 +47,29 @@ public class MockserverMappers {
                 request,
                 response,
                 this.projectService.getProjectById(createMockserverDto.projectId()));
+    }
+
+    public MockserverResponseDto toMockserverResponse(Mockserver mockserver) {
+        return new MockserverResponseDto(
+                mockserver.getId(),
+                mockserver.getName(),
+                mockserver.getRequest().getPath(),
+                mockserver.getRequest().getMethod().getValue(),
+                mockserver.getRequest().getBody(),
+                mockserver.getRequest().getHeaders()
+        );
+    }
+
+
+    public Request toRequest(Mockserver mockserver) {
+        return new Request(
+                mockserver.getId(),
+                mockserver.getName(),
+                mockserver.getRequest().getPath(),
+                mockserver.getRequest().getMethod(),
+                mockserver.getRequest().getBody(),
+                mockserver.getRequest().getHeaders(),
+                null
+        );
     }
 }

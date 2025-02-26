@@ -1,5 +1,6 @@
 package br.com.wa_docs.mockserver.services;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.mockserver.client.MockServerClient;
@@ -47,6 +48,11 @@ public class MockserverService implements IMockserverService {
     @Override
     public Mockserver update(Mockserver mockserver) {
         return mockserverRepository.save(mockserver);
+    }
+
+    @Override
+    public List<Mockserver> findByProjectId(Long projectId) {
+        return this.mockserverRepository.findByProjectId(projectId);
     }
 
     private Headers convertStringToHeaders(String headers) {
@@ -108,5 +114,4 @@ public class MockserverService implements IMockserverService {
                                                 1)));
 
     }
-
 }

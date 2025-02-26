@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +30,6 @@ public class ProjectController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDefaultDto> createProject(@RequestBody CreateProjectDto createProject) {
         try {
             projectService.createProject(createProject);
@@ -45,7 +43,6 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseProjectDto> getProjectById(@PathVariable Long id) {
         Project project = this.projectService.getProjectById(id);
         ResponseProjectDto responseProjectDto = ProjectMapper.toResponseProjectDto(project);
@@ -53,7 +50,6 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDefaultDto> deleteProject(@PathVariable Long id) {
         try {
             projectService.deleteProject(id);
@@ -69,7 +65,6 @@ public class ProjectController {
     }
 
     @PostMapping("/{projectId}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDefaultDto> addFolderToProject(
             @PathVariable Long projectId,
             @RequestBody CreateFolderToProject createFolderToProject) {
@@ -84,7 +79,6 @@ public class ProjectController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<ResponseProjectDto>> getProjectByOwner(@RequestParam Long owner) {
         List<Project> projects = projectService.getProjectByOwner(owner);
         return ResponseEntity.ok(
