@@ -6,23 +6,18 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public record CreateFolderDto(
-        @NotBlank(message = "Name is required")
-        @NotEmpty(message = "Name is required")
-        @NotNull(message = "Name is required")
-        String name,
+                @NotBlank(message = "Name is required") @NotEmpty(message = "Name is required") @NotNull(message = "Name is required") String name,
 
-        Long parentId,
+                Long parentId,
 
-        @NotNull(message = "Project is required")
-        @NotBlank(message = "Project is required")
-        @NotEmpty(message = "Project is required")
-        @Min(value = 1, message = "Project is required")
-        Long projectId,
+                @NotNull(message = "Project is required") @NotBlank(message = "Project is required") @NotEmpty(message = "Project is required") @Min(value = 1, message = "Project is required") Long projectId,
 
+                Integer level) {
 
-        @NotNull(message = "Level is required")
-        @NotBlank(message = "Level is required")
-        @NotEmpty(message = "Level is required")
-        Integer level
-) {
+        public CreateFolderDto {
+                if (level == null) {
+                        level = 0;
+                }
+        }
+
 }

@@ -54,6 +54,7 @@ public class Folder {
         this.project = project;
         this.subFolders = new ArrayList<>();
         this.requests = new ArrayList<>();
+        this.level = level;
     }
 
     public void addSubFolder(Folder subFolder) {
@@ -99,4 +100,12 @@ public class Folder {
         }
         this.id = id;
     }
+
+    public void setLevel(Integer level) {
+        if (level == null) {
+            return;
+        }
+        this.level = level;
+    }
+
 }

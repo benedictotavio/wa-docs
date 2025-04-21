@@ -1,9 +1,9 @@
 @url = http://localhost:8080/api/v1/folder
 
-@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ3YV9kb2NzIiwiaWF0IjoxNzM5OTI5OTQ5LCJleHAiOjE3Mzk5NDQzNDksInN1YiI6ImJlbmVkaWN0b3RhdmlvQHR1YW1hZWFxdWVsYXVyc2EuY29tIn0.ZFHaMvKuqcIEufEgrHiEcaTbqCcjEmz3dzM2W7v43uk
+@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ3YV9kb2NzIiwiaWF0IjoxNzQ1MjYzNDI3LCJleHAiOjE5NjEyNjM0MjcsInN1YiI6ImJlbmVkaWN0b3RhdmlvQHR1YW1hZWFxdWVsYXVyc2EuY29tIn0.4r7hLANIXJDChoebFgBNyY-70KtP6Ul1DVJjeOR4724
 
 ### @name GetFolder
-GET {{url}}/1 HTTP/1.1
+GET {{url}}/13 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
@@ -14,20 +14,9 @@ Authorization: Bearer {{bearerToken}}
 
 {
     "name": "Folder Root 1",
-    "projectId": 1,
-    "level": 0
-}
-
-### @name CreateSubfolder
-POST {{url}}/subfolder HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer {{bearerToken}}
-
-{
-    "name": "Subfolder 1",
-    "parentId": 1, // Remove it to create a root folder
-    "projectId": 1,
-    "level": 2
+    "projectId": 1, //
+    "level": 1, // Level in folder tree
+    "parentId": 11 // Folder parent
 }
 
 ### @name UpdateFolder
@@ -45,6 +34,6 @@ Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 ### @name DeleteFolder
-DELETE {{url}}/2 HTTP/1.1
+DELETE {{url}}/10 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}

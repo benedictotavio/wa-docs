@@ -29,7 +29,6 @@ public class FolderService implements IFolderService {
 
     @Override
     public List<Folder> getFolderByProjectId(Long projectId, Long parentId) {
-
         if (parentId == null) {
             return this.folderRepository.findByProjectId(projectId);
         }

@@ -8,7 +8,7 @@ public record ResponseFolderDto(
         Integer level
         ) {
 
-    public ResponseFolderDto(Long folderId, String folderNanameme, Long projectId, Integer level) {
-        this(folderId, folderNanameme, null, projectId, level);
+    public ResponseFolderDto(Long folderId, String folderName, Long projectId, Integer level) {
+        this(folderId, folderName, null, projectId, level);
     }
 }
