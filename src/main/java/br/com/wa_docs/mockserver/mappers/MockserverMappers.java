@@ -11,8 +11,6 @@ import br.com.wa_docs.mockserver.repositories.MockserverRequestRepository;
 import br.com.wa_docs.mockserver.repositories.MockserverResponseRepository;
 import br.com.wa_docs.project.services.IProjectService;
 import br.com.wa_docs.request.domains.Request;
-import lombok.var;
-
 @Component
 public class MockserverMappers {
     private final IProjectService projectService;

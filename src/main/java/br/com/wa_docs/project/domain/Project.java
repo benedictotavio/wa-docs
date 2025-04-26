@@ -40,7 +40,7 @@ public class Project {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "team_id", nullable = false)
+    @JoinColumn(name = "team_id", nullable = true)
     private Team team;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
