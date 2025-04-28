@@ -79,8 +79,10 @@ public class ProjectController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ResponseProjectDto>> getProjectByOwner(@RequestParam Long owner) {
-        List<Project> projects = projectService.getProjectByOwner(owner);
+    public ResponseEntity<List<ResponseProjectDto>> getProjectByOwner(
+            @RequestParam(required = false, name = "owner") Long ownerId,
+            @RequestParam(required = false, name = "team") Long teamId) {
+        List<Project> projects = projectService.filterProjects(ownerId, teamId);
         return ResponseEntity.ok(
                 projects.stream().map(ProjectMapper::toResponseProjectDto).toList());
     }

@@ -1,7 +1,10 @@
 package br.com.wa_docs.project.services;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import br.com.wa_docs.folder.domains.Folder;
@@ -60,4 +63,21 @@ public class ProjectService implements IProjectService {
         return projectRepository.findByOwnerId(owner);
     }
 
+    // TODO: Refatorar esse método
+    @Override
+    public List<Project> filterProjects(Long owner, Long team) {
+        List<Project> projects = new ArrayList<>();
+        if (Objects.nonNull(owner) && Objects.nonNull(team)) {
+            projects = projectRepository.findByOwnerId(owner);
+            projects.removeIf(project -> !project.getTeam().getTeamId().equals(team));
+            return projects;
+        } else if (Objects.nonNull(owner)) {
+            projects = projectRepository.findByOwnerId(owner);
+            return projects;
+        } else if (Objects.nonNull(team)) {
+            projects = projectRepository.findByTeamId(team);
+            return projects;
+        }
+        return new ArrayList<>();
+    }
 }
