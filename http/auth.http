@@ -4,10 +4,10 @@ POST {{url}}/signup HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "otavio@tuamaeaquelaursa.com",
-    "password": "T@vinho22",
-    "confirmPassword": "T@vinho22",
-    "username": "otavio",
+    "email": "benedictotavio@tuamaeaquelaursa.com",
+    "password": "T@vinho12",
+    "confirmPassword": "T@vinho12",
+    "username": "benedictotavio",
     "role": "ADMIN"
 }
 
