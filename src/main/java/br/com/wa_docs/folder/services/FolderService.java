@@ -48,4 +48,8 @@ public class FolderService implements IFolderService {
         this.folderRepository.deleteById(id);
     }
 
+    @Override
+    public List<Folder> listFoldersByParentId(Long projectId, Long parentId) {
+        return this.folderRepository.findByProjectIdAndParentId(projectId, parentId);
+    }
 }

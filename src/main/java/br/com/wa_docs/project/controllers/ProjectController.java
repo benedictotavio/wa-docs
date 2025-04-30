@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.wa_docs.project.domain.Project;
 import br.com.wa_docs.project.dtos.CreateProjectDto;
-import br.com.wa_docs.project.dtos.ResponseDefaultDto;
+import br.com.wa_docs.project.dtos.ProjectResponseDefaultDto;
 import br.com.wa_docs.project.dtos.ResponseProjectDto;
 import br.com.wa_docs.project.mappers.ProjectMapper;
 import br.com.wa_docs.project.services.IProjectService;
@@ -30,15 +30,15 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDefaultDto> createProject(@RequestBody CreateProjectDto createProject) {
+    public ResponseEntity<ProjectResponseDefaultDto> createProject(@RequestBody CreateProjectDto createProject) {
         try {
-            projectService.createProject(createProject);
+            Project project = projectService.createProject(createProject);
             return ResponseEntity.created(
                     URI.create("/api/v1/project/")).body(
-                            new ResponseDefaultDto("Project created successfully"));
+                            new ProjectResponseDefaultDto(project.getId(), "Project created successfully"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(
-                    new ResponseDefaultDto(e.getMessage()));
+                    new ProjectResponseDefaultDto(e.getMessage()));
         }
     }
 
@@ -50,12 +50,12 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDefaultDto> deleteProject(@PathVariable Long id) {
+    public ResponseEntity<ProjectResponseDefaultDto> deleteProject(@PathVariable Long id) {
         try {
             projectService.deleteProject(id);
-            return ResponseEntity.ok(new ResponseDefaultDto("Project deleted successfully"));
+            return ResponseEntity.ok(new ProjectResponseDefaultDto("Project deleted successfully"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new ResponseDefaultDto(e.getMessage()));
+            return ResponseEntity.badRequest().body(new ProjectResponseDefaultDto(e.getMessage()));
         }
     }
 
@@ -65,22 +65,24 @@ public class ProjectController {
     }
 
     @PostMapping("/{projectId}")
-    public ResponseEntity<ResponseDefaultDto> addFolderToProject(
+    public ResponseEntity<ProjectResponseDefaultDto> addFolderToProject(
             @PathVariable Long projectId,
             @RequestBody CreateFolderToProject createFolderToProject) {
         try {
             projectService.addFolderToProject(projectId,
                     createFolderToProject.folderName(),
                     createFolderToProject.level());
-            return ResponseEntity.ok(new ResponseDefaultDto("Folder added to project successfully"));
+            return ResponseEntity.ok(new ProjectResponseDefaultDto("Folder added to project successfully"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new ResponseDefaultDto(e.getMessage()));
+            return ResponseEntity.badRequest().body(new ProjectResponseDefaultDto(e.getMessage()));
         }
     }
 
     @GetMapping
-    public ResponseEntity<List<ResponseProjectDto>> getProjectByOwner(@RequestParam Long owner) {
-        List<Project> projects = projectService.getProjectByOwner(owner);
+    public ResponseEntity<List<ResponseProjectDto>> getProjectByOwner(
+            @RequestParam(required = false, name = "owner") Long ownerId,
+            @RequestParam(required = false, name = "team") Long teamId) {
+        List<Project> projects = projectService.filterProjects(ownerId, teamId);
         return ResponseEntity.ok(
                 projects.stream().map(ProjectMapper::toResponseProjectDto).toList());
     }

@@ -1,6 +1,6 @@
 @url = http://localhost:8080/api/v1/project
 
-@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ3YV9kb2NzIiwiaWF0IjoxNzQwNjA4NzA4LCJleHAiOjE5NTY2MDg3MDgsInN1YiI6ImJlbmVkaWN0b3RhdmlvQHR1YW1hZWFxdWVsYXVyc2EuY29tIn0.pJC7LYN60dgiuWq1q0EpMOSbeht3JlAaJ-cWms1_Z4c
+@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ3YV9kb2NzIiwiaWF0IjoxNzQ1NzEyNTg5LCJleHAiOjE5NjE3MTI1ODksInN1YiI6ImJlbmVkaWN0b3RhdmlvQHR1YW1hZWFxdWVsYXVyc2EuY29tIn0.HhxLvjgQfi2w8v3UVKMYmXXoiVY-yBhXtqN8WKLVEEI
 
 # @name CreateProject
 POST {{url}} HTTP/1.1
@@ -17,13 +17,13 @@ Authorization: Bearer {{bearerToken}}
 
 ###
 # @name GetProject
-GET {{url}}/1 HTTP/1.1
+GET {{url}}/5 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 ###
 # @name DeleteProject
-DELETE {{url}}/1 HTTP/1.1
+DELETE {{url}}/6 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
@@ -34,7 +34,19 @@ Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 ###
-# @name GetProject
-GET {{url}}?owner=1 HTTP/1.1
+# @name FilterProjects
+GET {{url}}?owner=52 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+###
+# @name FilterProjects
+GET {{url}}?team=10 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+###
+# @name FilterProjects
+GET {{url}}?team=9&owner=52 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
