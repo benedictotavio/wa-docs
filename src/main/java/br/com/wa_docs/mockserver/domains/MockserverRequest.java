@@ -1,5 +1,6 @@
 package br.com.wa_docs.mockserver.domains;
 
+import br.com.wa_docs.mockserver.enums.BodyFormat;
 import br.com.wa_docs.request.enums.HttpMethod;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -35,13 +36,16 @@ public class MockserverRequest {
 
     private String queryParams;
 
+    private BodyFormat bodyFormat;
+
     @OneToOne(mappedBy = "request")
     private Mockserver mockserver;
 
-    public MockserverRequest(String path, HttpMethod method, String body, String headers, String queryParams) {
+    public MockserverRequest(String path, HttpMethod method, String body, BodyFormat bodyFormat, String headers, String queryParams) {
         this.path = path;
         this.method = method;
         this.body = body;
+        this.bodyFormat = bodyFormat;
         this.headers = headers;
         this.queryParams = queryParams;
     }

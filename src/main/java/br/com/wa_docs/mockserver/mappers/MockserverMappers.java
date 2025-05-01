@@ -32,6 +32,7 @@ public class MockserverMappers {
                         createMockserverDto.path(),
                         createMockserverDto.method(),
                         createMockserverDto.body(),
+                        createMockserverDto.bodyFormat(),
                         createMockserverDto.headers(),
                         createMockserverDto.queryParams()));
 
@@ -55,6 +56,7 @@ public class MockserverMappers {
                 mockserver.getRequest().getPath(),
                 mockserver.getRequest().getMethod().getValue(),
                 mockserver.getRequest().getBody(),
+                mockserver.getRequest().getBodyFormat(),
                 mockserver.getRequest().getHeaders()
         );
     }

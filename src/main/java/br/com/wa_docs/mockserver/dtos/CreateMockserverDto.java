@@ -1,5 +1,6 @@
 package br.com.wa_docs.mockserver.dtos;
 
+import br.com.wa_docs.mockserver.enums.BodyFormat;
 import br.com.wa_docs.request.enums.HttpMethod;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -32,6 +33,11 @@ public record CreateMockserverDto(
         @NotNull(message = "Body is required")
         @NotEmpty(message = "Body is required")
         String body,
+
+        @NotBlank(message = "Body Format is required")
+        @NotNull(message = "Body Format is required")
+        @NotEmpty(message = "Body Format is required")
+        BodyFormat bodyFormat,
 
         @NotBlank(message = "Headers is required")
         @NotNull(message = "Headers is required")

@@ -10,6 +10,8 @@ Authorization: Bearer {{token}}
   "name": "Mock Server 1",
   "path": "/api/mock",
   "method": "GET",
+  "body": "{\"message\": \"Request was successful\"}",
+  "bodyFormat": "JSON",
   "headers": "{\"Content-Type\": \"application/json\"}",
   "projectId": 1,
   "statusCode": 200,
