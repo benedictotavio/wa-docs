@@ -32,7 +32,6 @@ public class MockserverMappers {
                         createMockserverDto.path(),
                         createMockserverDto.method(),
                         createMockserverDto.body(),
-                        createMockserverDto.bodyFormat(),
                         createMockserverDto.headers(),
                         createMockserverDto.queryParams()));
 
@@ -46,7 +45,9 @@ public class MockserverMappers {
                 createMockserverDto.name(),
                 request,
                 response,
-                this.projectService.getProjectById(createMockserverDto.projectId()));
+                this.projectService.getProjectById(createMockserverDto.projectId()),
+                null
+                );
     }
 
     public MockserverResponseDto toMockserverResponse(Mockserver mockserver) {
@@ -56,7 +57,6 @@ public class MockserverMappers {
                 mockserver.getRequest().getPath(),
                 mockserver.getRequest().getMethod().getValue(),
                 mockserver.getRequest().getBody(),
-                mockserver.getRequest().getBodyFormat(),
                 mockserver.getRequest().getHeaders()
         );
     }

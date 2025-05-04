@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import br.com.wa_docs.mockserver.repositories.MockserverRepository;
 import br.com.wa_docs.user.auth.domains.Role;
 import br.com.wa_docs.user.auth.enums.ERole;
 import br.com.wa_docs.user.auth.repositories.RoleRepository;
@@ -22,10 +23,9 @@ public class WaDocsApplication {
 	}
 
 	@Bean
-	CommandLineRunner run(UserRepository userRepository, RoleRepository roleRepository,
+	CommandLineRunner run(UserRepository userRepository, RoleRepository roleRepository, MockserverRepository mockserverRepository,
 			PasswordEncoder passwordEncoder) {
 		return args -> {
-
 			for (String arg : args) {
 
 				if (arg.isEmpty()) {
@@ -38,6 +38,7 @@ public class WaDocsApplication {
 					return;
 				roleRepository.save(new Role(ERole.ADMIN));
 				roleRepository.save(new Role(ERole.USER));
+				mockserverRepository.deleteAll();
 			}
 
 		};

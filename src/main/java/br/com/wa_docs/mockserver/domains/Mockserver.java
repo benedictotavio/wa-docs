@@ -35,6 +35,8 @@ public class Mockserver {
     @JoinColumn(name = "request_id", referencedColumnName = "id")
     private MockserverRequest request;
 
+    private String espectationId;
+
     //Todo: delete all responses when delete mockserver
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "response_id", referencedColumnName = "id")
@@ -44,11 +46,12 @@ public class Mockserver {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    public Mockserver(String name, MockserverRequest request, MockserverResponse response, Project project) {
+    public Mockserver(String name, MockserverRequest request, MockserverResponse response, Project project, String espectationId) {
         this.name = name;
         this.request = request;
         this.response = response;
         this.project = project;
+        this.espectationId = espectationId;
     }
 
     public void setRequest(MockserverRequest request) {

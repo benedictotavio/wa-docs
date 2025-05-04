@@ -16,6 +16,7 @@ import br.com.wa_docs.mockserver.dtos.MockserverResponseDto;
 import br.com.wa_docs.mockserver.mappers.MockserverMappers;
 import br.com.wa_docs.mockserver.services.IMockserverService;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,40 +34,31 @@ public class MockserverController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(
+    public ResponseEntity<MockserverResponseDto> getById(
             @PathVariable Long id,
             @RequestParam(required = false) Boolean asRequest) {
-        try {
-            if (Boolean.TRUE.equals(asRequest)) {
-                Mockserver mockserver = this.mockserverService.findById(id);
-                return ResponseEntity.ok(
-                        mockserverMappers.toRequest(mockserver));
-            }
+        if (Boolean.TRUE.equals(asRequest)) {
             Mockserver mockserver = this.mockserverService.findById(id);
             return ResponseEntity.ok(
                     mockserverMappers.toMockserverResponse(mockserver));
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return ResponseEntity.badRequest().build();
         }
+        Mockserver mockserver = this.mockserverService.findById(id);
+        return ResponseEntity.ok(
+                mockserverMappers.toMockserverResponse(mockserver));
     }
 
     @PostMapping
     public ResponseEntity<MockserverDefaultResponseDto> create(
             @RequestBody CreateMockserverDto mockserverRequestDto,
-            @RequestParam(required = false, name = "restTemplate") Boolean restTemplate) {
+            @RequestParam(required = false) Boolean restTemplate) {
         try {
-            Mockserver mockserver = this.mockserverMappers.toMockserver(mockserverRequestDto);
-            Mockserver newMockserver;
-            if (Boolean.TRUE.equals(restTemplate)) {
-                newMockserver = this.mockserverService.createByRestTemplate(mockserver);
-            } else {
-                newMockserver = this.mockserverService.create(mockserver);
-            }
+            Mockserver mockserver = this.mockserverService.create(
+                    this.mockserverMappers.toMockserver(mockserverRequestDto),
+                    restTemplate);
             return ResponseEntity.created(
-                    URI.create("/api/v1/mockserver/")).body(
+                    URI.create("/mockserver/" + mockserver.getId())).body(
                             new MockserverDefaultResponseDto(
-                                    newMockserver.getId(),
+                                    mockserver.getId(),
                                     "Mockserver created successfully"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -83,6 +75,22 @@ public class MockserverController {
                             this.mockserverMappers::toMockserverResponse).toList());
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<MockserverDefaultResponseDto> delete(@PathVariable Long id) {
+        try {
+            this.mockserverService.delete(id);
+            return ResponseEntity.ok().body(
+                    new MockserverDefaultResponseDto(
+                            id,
+                            "Mockserver deleted successfully"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    new MockserverDefaultResponseDto(
+                            id,
+                            "Mockserver not found"));
         }
     }
 }

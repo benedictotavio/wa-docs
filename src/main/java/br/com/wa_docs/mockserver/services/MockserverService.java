@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.mockserver.client.MockServerClient;
+import org.mockserver.mock.Expectation;
 import org.mockserver.model.Delay;
 import org.mockserver.model.Headers;
 import org.mockserver.model.HttpRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import br.com.wa_docs.mockserver.configs.MockserverProperties;
 import br.com.wa_docs.mockserver.domains.Mockserver;
+import br.com.wa_docs.mockserver.exceptions.MockserverNotFound;
 import br.com.wa_docs.mockserver.repositories.MockserverRepository;
 
 @Service
@@ -25,28 +27,42 @@ public class MockserverService implements IMockserverService {
 
     public MockserverService(MockserverRepository mockserverRepository, MockserverProperties mockserverProperties) {
         this.mockserverRepository = mockserverRepository;
-        this.mockServerClient = new MockServerClient(
-                "localhost",
-                1080);
         this.mockserverProperties = mockserverProperties;
+        this.mockServerClient = new MockServerClient(
+                this.mockserverProperties.getHost(),
+                this.mockserverProperties.getPort());
     }
 
     @Override
-    public Mockserver create(Mockserver mockserver) {
-        Mockserver mockserverSaved = this.mockserverRepository.save(mockserver);
-        this.createMock(mockserverSaved);
-        return mockserverSaved;
+    public Mockserver create(Mockserver mockserver, Boolean asRestTemplate) {
+
+        if (Boolean.TRUE.equals(asRestTemplate) || asRestTemplate != null) {
+            this.createMockByRestTemplate(mockserver);
+            return mockserver;
+        }
+
+        String mockId = this.createMock(mockserver);
+        mockserver.setEspectationId(mockId);
+        return this.mockserverRepository.save(mockserver);
     }
 
     @Override
     public Mockserver findById(Long id) {
         return this.mockserverRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Mockserver not found"));
+                () -> new MockserverNotFound("Mockserver not found"));
     }
 
     @Override
     public void delete(Long id) {
-        this.mockserverRepository.deleteById(id);
+        Mockserver mockserver = this.findById(id);
+        try {
+            this.mockServerClient.clear(
+                    HttpRequest.request()
+                            .withPath(mockserver.getRequest().getPath()));
+        } catch (Exception e) {
+            throw new MockserverNotFound("Mockserver not found");
+        }
+        this.mockserverRepository.delete(mockserver);
     }
 
     @Override
@@ -60,9 +76,17 @@ public class MockserverService implements IMockserverService {
     }
 
     @Override
-    public Mockserver createByRestTemplate(Mockserver mockserver) {
-        this.createMockByRestTemplate(mockserver);
-        return this.mockserverRepository.save(mockserver);
+    public void restartMockServer() {
+        if (this.mockServerClient.hasStarted()) {
+            this.mockServerClient.reset();
+        }
+    }
+
+    @Override
+    public void stopMockServer() {
+        if (this.mockServerClient.hasStarted()) {
+            this.mockServerClient.stop();
+        }
     }
 
     private Headers convertStringToHeaders(String headers) {
@@ -98,37 +122,33 @@ public class MockserverService implements IMockserverService {
         return queryParamsObject;
     }
 
-    private void createMock(Mockserver mockserver) {
-        mockServerClient.when(
-                HttpRequest.request().withMethod(
-                        mockserver.getRequest().getMethod().name()).withPath(
-                                mockserver.getRequest().getPath())
-                        .withBody(
-                                mockserver.getRequest().getBody())
-                        .withHeaders(
-                                this.convertStringToHeaders(
-                                        mockserver.getRequest().getHeaders()))
-                        .withQueryStringParameters(
-                                this.convertStringToQueryParams(
-                                        mockserver.getRequest().getQueryParams())))
-                .respond(
-                        HttpResponse.response()
-                                .withStatusCode(mockserver.getResponse().getStatusCode().getValue())
-                                .withBody(mockserver.getResponse().getBody())
-                                .withHeaders(
-                                        this.convertStringToHeaders(
-                                                mockserver.getResponse().getHeaders()))
-                                .withDelay(
-                                        Delay.delay(
-                                                TimeUnit.SECONDS,
-                                                1)));
+    private String createMock(Mockserver mockserver) {
+        HttpRequest request = new HttpRequest()
+                .withBody(mockserver.getRequest().getBody())
+                .withMethod(mockserver.getRequest().getMethod().getValue())
+                .withPath(mockserver.getRequest().getPath())
+                .withQueryStringParameters(convertStringToQueryParams(mockserver.getRequest().getQueryParams()))
+                .withHeaders(convertStringToHeaders(mockserver.getRequest().getHeaders()));
+        HttpResponse response = new HttpResponse()
+                .withStatusCode(mockserver.getResponse().getStatusCode().getValue())
+                .withBody(mockserver.getResponse().getBody())
+                .withHeaders(convertStringToHeaders(mockserver.getResponse().getHeaders()))
+                .withDelay(Delay.delay(
+                        TimeUnit.SECONDS,
+                        1));
 
+        try {
+            Expectation[] results = mockServerClient.when(request).respond(response);
+            return results[0].getId();
+        } catch (Exception e) {
+            return "Error creating mock";
+        }
     }
 
     private void createMockByRestTemplate(Mockserver mockserver) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.postForObject(
-                mockserverProperties.getHost() + mockserverProperties.getPort() + mockserver.getRequest().getPath(),
+                "http://localhost:" + mockserverProperties.getPort() + mockserver.getRequest().getPath(),
                 mockserver,
                 Mockserver.class);
     }

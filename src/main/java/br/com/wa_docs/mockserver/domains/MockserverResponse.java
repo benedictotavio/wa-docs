@@ -1,6 +1,5 @@
 package br.com.wa_docs.mockserver.domains;
 
-import br.com.wa_docs.mockserver.enums.BodyFormat;
 import br.com.wa_docs.mockserver.enums.StatusCode;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -30,8 +29,6 @@ public class MockserverResponse {
     private StatusCode statusCode;
 
     private String body;
-
-    private BodyFormat bodyFormat;
 
     private String headers;
 
