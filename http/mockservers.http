@@ -1,5 +1,5 @@
 @url = http://localhost:8080/api/v1/mockserver
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ3YV9kb2NzIiwiaWF0IjoxNzQ2MzIxMTY0LCJleHAiOjE5NjIzMjExNjQsInN1YiI6ImJlbmVkaWN0b3RhdmlvQHR1YW1hZWFxdWVsYXVyc2EuY29tIn0.bwswxgAUmjL-FhLMw_djLAAfJlDS6QTr9m--h-REdtk
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ3YV9kb2NzIiwiaWF0IjoxNzQ2MzI4MDIwLCJleHAiOjE3Njc5MjgwMjAsInN1YiI6ImJlbmVkaWN0b3RhdmlvQHR1YW1hZWFxdWVsYXVyc2EuY29tIn0.oQoUKrRJvljoSMKw1HTfiYj2f1rrvwbC7ZFU-SA4n94
 
 # @name CreateMockServer
 POST {{url}} HTTP/1.1
@@ -41,12 +41,12 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### @name GetMockServerById
-GET {{url}}/102 HTTP/1.1
+GET {{url}}/52 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### @name DeleteMockserver
-DELETE {{url}}/102 HTTP/1.1
+DELETE {{url}}/2 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 

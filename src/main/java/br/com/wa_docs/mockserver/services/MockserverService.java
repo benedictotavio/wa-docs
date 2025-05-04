@@ -41,8 +41,9 @@ public class MockserverService implements IMockserverService {
             return mockserver;
         }
 
-        String mockId = this.createMock(mockserver);
-        mockserver.setEspectationId(mockId);
+        String mock = this.createMock(mockserver);
+        mockserver.setEspectationId(mock);
+        mockserver.setBaseUrl(this.mockServerClient.remoteAddress().getHostString());
         return this.mockserverRepository.save(mockserver);
     }
 

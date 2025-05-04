@@ -14,63 +14,64 @@ import br.com.wa_docs.request.domains.Request;
 
 @Component
 public class MockserverMappers {
-    private final IProjectService projectService;
-    private final MockserverRequestRepository mockserverRequestRepository;
-    private final MockserverResponseRepository mockserverResponseRepository;
+        private final IProjectService projectService;
+        private final MockserverRequestRepository mockserverRequestRepository;
+        private final MockserverResponseRepository mockserverResponseRepository;
 
-    public MockserverMappers(IProjectService projectService, MockserverRequestRepository mockserverRequestRepository,
-            MockserverResponseRepository mockserverResponseRepository) {
-        this.projectService = projectService;
-        this.mockserverRequestRepository = mockserverRequestRepository;
-        this.mockserverResponseRepository = mockserverResponseRepository;
-    }
+        public MockserverMappers(IProjectService projectService,
+                        MockserverRequestRepository mockserverRequestRepository,
+                        MockserverResponseRepository mockserverResponseRepository) {
+                this.projectService = projectService;
+                this.mockserverRequestRepository = mockserverRequestRepository;
+                this.mockserverResponseRepository = mockserverResponseRepository;
+        }
 
-    public Mockserver toMockserver(CreateMockserverDto createMockserverDto) {
+        public Mockserver toMockserver(CreateMockserverDto createMockserverDto) {
 
-        var request = this.mockserverRequestRepository.save(
-                new MockserverRequest(
-                        createMockserverDto.path(),
-                        createMockserverDto.method(),
-                        createMockserverDto.body(),
-                        createMockserverDto.headers(),
-                        createMockserverDto.queryParams()));
+                var request = this.mockserverRequestRepository.save(
+                                new MockserverRequest(
+                                                createMockserverDto.path(),
+                                                createMockserverDto.method(),
+                                                createMockserverDto.body(),
+                                                createMockserverDto.headers(),
+                                                createMockserverDto.queryParams()));
 
-        var response = this.mockserverResponseRepository.save(
-                new MockserverResponse(
-                        createMockserverDto.statusCode(),
-                        createMockserverDto.bodyResponse(),
-                        createMockserverDto.headers()));
+                var response = this.mockserverResponseRepository.save(
+                                new MockserverResponse(
+                                                createMockserverDto.statusCode(),
+                                                createMockserverDto.bodyResponse(),
+                                                createMockserverDto.headers()));
 
-        return new Mockserver(
-                createMockserverDto.name(),
-                request,
-                response,
-                this.projectService.getProjectById(createMockserverDto.projectId()),
-                null
-                );
-    }
+                return new Mockserver(
+                                createMockserverDto.name(),
+                                request,
+                                response,
+                                this.projectService.getProjectById(createMockserverDto.projectId()),
+                                null,
+                                null);
+        }
 
-    public MockserverResponseDto toMockserverResponse(Mockserver mockserver) {
-        return new MockserverResponseDto(
-                mockserver.getId(),
-                mockserver.getName(),
-                mockserver.getRequest().getPath(),
-                mockserver.getRequest().getMethod().getValue(),
-                mockserver.getRequest().getBody(),
-                mockserver.getRequest().getHeaders()
-        );
-    }
+        public MockserverResponseDto toMockserverResponse(Mockserver mockserver) {
+                return new MockserverResponseDto(
+                                mockserver.getId(),
+                                mockserver.getName(),
+                                mockserver.getRequest().getPath(),
+                                mockserver.getBaseUrl(),
+                                mockserver.getRequest().getMethod().getValue(),
+                                mockserver.getRequest().getBody(),
+                                mockserver.getRequest().getHeaders(),
+                                mockserver.getResponse().getBody()
+                                );
+        }
 
-
-    public Request toRequest(Mockserver mockserver) {
-        return new Request(
-                mockserver.getId(),
-                mockserver.getName(),
-                mockserver.getRequest().getPath(),
-                mockserver.getRequest().getMethod(),
-                mockserver.getRequest().getBody(),
-                mockserver.getRequest().getHeaders(),
-                null
-        );
-    }
+        public Request toRequest(Mockserver mockserver) {
+                return new Request(
+                                mockserver.getId(),
+                                mockserver.getName(),
+                                mockserver.getRequest().getPath(),
+                                mockserver.getRequest().getMethod(),
+                                mockserver.getRequest().getBody(),
+                                mockserver.getRequest().getHeaders(),
+                                null);
+        }
 }
