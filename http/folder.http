@@ -14,9 +14,8 @@ Authorization: Bearer {{bearerToken}}
 
 {
     "name": "Folder Root 1",
-    "projectId": 1, //
-    "level": 1, // Level in folder tree
-    "parentId": 11 // Folder parent
+    "projectId": 1,
+    "level": 0
 }
 
 ### @name UpdateFolder

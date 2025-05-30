@@ -19,9 +19,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private AuthFilter authFilter;
+    private final AuthFilter authFilter;
 
-    private CustomAuthenticationProvider customAuthenticationProvider;
+    private final CustomAuthenticationProvider customAuthenticationProvider;
 
     public SecurityConfig(AuthFilter authFilter, @Lazy CustomAuthenticationProvider customAuthenticationProvider) {
         this.authFilter = authFilter;
@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
-                        auth -> auth.requestMatchers("/api/v1/auth/**", "/api/v1/health").permitAll()
+                        auth -> auth.requestMatchers("/api/v1/auth/**", "/health").permitAll()
                                 .anyRequest().authenticated())
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class).build();
     }

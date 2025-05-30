@@ -11,3 +11,12 @@ services:
       - 5432:5432
     volumes:
       - ./postgres:/var/lib/postgresql/data
+  
+#  wa_docs:
+#    build: .
+#    container_name: wa_docs
+#    restart: always
+#    ports:
+#      - 8080:8080
+#    depends_on:
+#      - postgres
